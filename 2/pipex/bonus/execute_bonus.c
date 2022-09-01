@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 14:43:17 by jinheo            #+#    #+#             */
-/*   Updated: 2022/08/28 19:26:00 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/08/30 13:57:18 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,46 +37,55 @@ static char	**get_path(char **env)
 	return (path_set);
 }
 
-static void	set_before_adding_path(int *idx, char arr[], char *command)
-{
-	*idx = 0;
-	arr[0] = '/';
-	ft_strlcpy(arr + 1, command, ft_strlen(command) + 2);
-}
-
-static void	run_command(char **path, char **command)
+static void	find_path_and_run_command(int *exec_chk, char **path,
+	char **command, char **envp)
 {
 	int		idx;
-	int		exec_chk;
-	char	slash_command[20];
+	char	slash_command[42];
 	char	*file_dir;
+
+	idx = 0;
+	slash_command[0] = '/';
+	ft_strlcpy(slash_command + 1, command[0], ft_strlen(command[0]) + 2);
+	while (path[idx])
+	{
+		file_dir = ft_strjoin(path[idx], slash_command);
+		if (!file_dir)
+		{
+			perror("malloc() failed");
+			return ;
+		}
+		*exec_chk = access(file_dir, X_OK);
+		if (!(*exec_chk))
+			execve(file_dir, command, envp);
+		free(file_dir);
+		idx++;
+	}
+}
+
+static void	run_command(char **path, char **command, char **envp)
+{
+	int		exec_chk;
 
 	exec_chk = access(command[0], X_OK);
 	if (!exec_chk)
 		execve(command[0], command, NULL);
 	else
-	{
-		set_before_adding_path(&idx, slash_command, command[0]);
-		while (path[idx])
-		{
-			file_dir = ft_strjoin(path[idx], slash_command);
-			if (!file_dir)
-				perror("memory allocation failed");
-			exec_chk = access(file_dir, X_OK);
-			if (!exec_chk)
-				execve(file_dir, command, NULL);
-			free(file_dir);
-			idx++;
-		}
-	}
+		find_path_and_run_command(&exec_chk, path, command, envp);
 	if (exec_chk)
-		perror("command not found");
+	{
+		write(STDERR_FILENO, "command not found: ", 19);
+		write(STDERR_FILENO, command[0], ft_strlen(command[0]));
+		write(STDERR_FILENO, "\n", 1);
+	}
 }
 
 static void	free_all(char **strset)
 {
 	int	idx;
 
+	if (!strset)
+		return ;
 	idx = 0;
 	while (strset[idx])
 	{
@@ -93,11 +102,18 @@ void	execute_command(char *command_str, char **envp)
 
 	path = get_path(envp);
 	if (!path)
+	{
 		perror("malloc() failed");
+		return ;
+	}
 	command = ft_split(command_str, ' ');
 	if (!command)
+	{
 		perror("malloc() failed");
-	run_command(path, command);
+		free_all(path);
+		return ;
+	}
+	run_command(path, command, envp);
 	free_all(path);
 	free_all(command);
 }

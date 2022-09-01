@@ -6,7 +6,7 @@
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/25 15:12:57 by jinheo            #+#    #+#              #
-#    Updated: 2022/08/27 13:26:08 by jinheo           ###   ########.fr        #
+#    Updated: 2022/08/29 20:57:33 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS	 = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_strcmp.c \
 		ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
 		ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 		ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
-		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
+		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -34,28 +35,21 @@ AR		= ar rcs
 
 all :		$(NAME)
 
-printf :	
-			@echo "Compiling ft_printf..."
-			@make -C ft_printf
-
 $(NAME)	:	
 			@echo "Compiling libft..."
 			@make $(OBJS)
-			@make printf
-			@echo "Archiving libft_printf..."
-			@$(AR) $@ $(OBJS) ft_printf/libftprintf.a 
+			@echo "Archiving libft..."
+			@$(AR) $(NAME) $(OBJS)
 			@echo "Done!"
 
 .c.o:
 			@${CC} ${CFLAGS} -c $< -o $@
 			
 clean :
-			@make -C ft_printf clean
 			@$(RM) $(OBJS)
 			@echo "Erasing .o files..."
 
 fclean :	clean
-			@make -C ft_printf fclean
 			@$(RM) $(NAME)
 			@echo "Erasing lib files..."
 
