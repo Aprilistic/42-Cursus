@@ -1,0 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/15 18:47:14 by jinheo            #+#    #+#             */
+/*   Updated: 2022/09/16 16:00:05 by jinheo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philosopher.h"
+
+int	main(int argc, char *argv[])
+{
+	t_data	data;
+	int		data_result;
+
+	data_result = set_data(&data, argc, argv);
+	if (data_result == _INPUT_ERROR)
+	{
+		write(STDOUT_FILENO, "Invalid input. Exit Process.\n", 29);
+		return (0);
+	}
+	else if (data_result == _FUNCTIONAL_ERROR)
+	{
+		write(STDERR_FILENO, "Functional error occurred. Terminate process.\n",
+			46);
+		return (1);
+	}
+}
