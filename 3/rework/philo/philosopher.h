@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/17 20:51:12 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:29:50 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,11 @@ int					set_data(t_data *data, int argc, char *argv[]);
 
 // delete.c
 void				delete_data(t_data *data);
+int					delete_threads(t_data *data);
 
 // initialize.c
 void				initialize_process(t_data *data);
+int					initialize_threads(t_data *data);
 
 // utility.c
 int					get_next_index(int max_index, int cur_index, int diff);
@@ -110,10 +112,9 @@ void				sleeping_and_thinking(t_data *data, int philosopher_idx);
 void				philosopher_status_check(t_data *data, int philosopher_idx);
 
 // routine.c
-void				philosopher_routine(void *args);
-void				monitor_routine(void *args);
-void				waiter_routine(void *args);
-
+void				*philosopher_routine(void *args);
+void				*monitor_routine(void *args);
+void				*waiter_routine(void *args);
 
 // print.c
 void				print_message(t_data *data, struct timeval *now,

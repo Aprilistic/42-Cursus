@@ -6,7 +6,7 @@
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/17 17:24:07 by jinheo            #+#    #+#              #
-#    Updated: 2022/09/17 20:43:49 by jinheo           ###   ########.fr        #
+#    Updated: 2022/09/18 15:35:01 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,13 @@ SRCS = main.c delete.c routine.c philosopher_routine.c print.c set.c utility.c i
 OBJS = $(SRCS:.c=.o)
 
 .c.o :
-			@${CC} ${CFLAGS} -c $< -o $@
+			@$(CC) $(CFLAGS) -c $< -o $@
 
 NAME = philo
 
 $(NAME) : $(OBJS)
 		@echo "Making .o files..."
-		@CC CFLAGS -lpthreads -o $@ $^
+		@$(CC) $(CFLAGS) -lpthread -o $@ $^
 
 all :
 		@echo "Making exec files..."

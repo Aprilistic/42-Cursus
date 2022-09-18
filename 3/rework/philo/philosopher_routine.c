@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:27:26 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/17 17:22:56 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:59:10 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	philosopher_status_check(t_data *data, int philosopher_idx)
 	struct timeval	now;
 
 	gettimeofday(&now, NULL);
+	printf("hi\n");
 	if (get_time_difference_in_ms
 		(&(data->philosophers[philosopher_idx].think_since), &now)
 		>= data->rule.time_to_die)

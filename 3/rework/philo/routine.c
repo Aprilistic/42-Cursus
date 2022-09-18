@@ -6,43 +6,47 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:54:17 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/17 20:22:18 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:58:23 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	philosopher_routine(void *args)
+void	*philosopher_routine(void *args)
 {
 	t_data	*data;
 	int		philosopher_idx;
 
 	data = ((t_args *)args)->data;
 	philosopher_idx = ((t_args *)args)->philosopher_idx;
+	sleep(1);
 	while (1)
 	{
+
 		philosopher_status_check(data, philosopher_idx);
 		if (data->philosophers[philosopher_idx].interrupt == TRUE
 			|| data->philosophers[philosopher_idx].status == FULL)
 			break ;
 		if (data->philosophers[philosopher_idx].order == AUTHORIZED)
 		{
-			data->philosophers[philosopher_idx].order == UNAUTHORIZED;
+			data->philosophers[philosopher_idx].order = UNAUTHORIZED;
 			grab_fork(data, philosopher_idx);
 			eating(data, philosopher_idx);
 			put_fork(data, philosopher_idx);
 			sleeping_and_thinking(data, philosopher_idx);
 		}
 	}
+	return (NULL);
 }
 
-void	monitor_routine(void *args)
+void	*monitor_routine(void *args)
 {
 	t_data	*data;
 	int		philosopher_idx;
 
 	data = ((t_args *)args)->data;
 	philosopher_idx = ((t_args *)args)->philosopher_idx;
+	sleep(1);
 	while (1)
 	{
 		if (data->philosophers[philosopher_idx].status == DEAD
@@ -56,6 +60,7 @@ void	monitor_routine(void *args)
 		//is this actually needed?
 		usleep(1 * MILI_SEC);
 	}
+	return (NULL);
 }
 
 static void	wait_for_neighbor_philosophers(t_data *data, int philosopher_idx)
@@ -91,7 +96,7 @@ static int	interrupt_occurred(t_data *data)
 	return (FALSE);
 }
 
-void	waiter_routine(void *args)
+void	*waiter_routine(void *args)
 {
 	t_data	*data;
 	int		turn;
@@ -99,7 +104,7 @@ void	waiter_routine(void *args)
 	int		parallel_idx;
 	int		philosopher_idx;
 
-	data = ((t_args *)args)->data;
+	data = (t_data *)args;
 	turn = 1;
 	max_parallel_threads = data->rule.number_of_philosophers / 2;
 	while (1)
@@ -118,4 +123,5 @@ void	waiter_routine(void *args)
 		}
 		turn = get_next_index(data->rule.number_of_philosophers, turn, -1);
 	}
+	return (NULL);
 }

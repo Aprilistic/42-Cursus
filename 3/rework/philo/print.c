@@ -6,12 +6,11 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/17 20:38:21 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:06:11 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-
 
 void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 		int mode)

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:14 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/17 20:52:49 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:38:03 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 	int		data_result;
-	int		philosopher_idx;
 
 	data_result = set_data(&data, argc, argv);
 	if (data_result == _INPUT_ERROR)
@@ -27,13 +26,24 @@ int	main(int argc, char *argv[])
 	else if (data_result == _FUNCTIONAL_ERROR)
 	{
 		write(STDERR_FILENO, "Functional error occurred. Terminate process.\n",
-			46);
+				46);
 		return (1);
 	}
 	initialize_process(&data);
-	philosopher_idx = 0;
-	while (philosopher_idx < data.rule.number_of_philosophers)
+	if (initialize_threads(&data) == _FUNCTIONAL_ERROR)
 	{
-		
+		write(STDERR_FILENO, "Functional error occurred. Terminate process.\n",
+				46);
+		delete_data(&data);
+		return (1);
 	}
+	if (delete_threads(&data) == _FUNCTIONAL_ERROR)
+	{
+		write(STDERR_FILENO, "Functional error occurred. Terminate process.\n",
+				46);
+		delete_data(&data);
+		return (1);
+	}
+	delete_data(&data);
+	return (0);
 }

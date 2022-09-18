@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/16 17:02:14 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/09/18 15:28:07 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ static int	set_mutex(t_data *data)
 
 int	set_data(t_data *data, int argc, char *argv[])
 {
-	int	memory_chk;
-
-	if (set_rule(&(data->rule), argc, argv) == _INPUT_ERROR)
+	if (set_rule(data, argc, argv) == _INPUT_ERROR)
 		return (_INPUT_ERROR);
 	if (set_threads(data) == _FUNCTIONAL_ERROR)
 	{
