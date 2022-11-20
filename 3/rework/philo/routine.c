@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:54:17 by jinheo            #+#    #+#             */
-/*   Updated: 2022/09/18 15:58:23 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/04 14:29:02 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void	*philosopher_routine(void *args)
 
 	data = ((t_args *)args)->data;
 	philosopher_idx = ((t_args *)args)->philosopher_idx;
-	sleep(1);
 	while (1)
 	{
-
 		philosopher_status_check(data, philosopher_idx);
 		if (data->philosophers[philosopher_idx].interrupt == TRUE
 			|| data->philosophers[philosopher_idx].status == FULL)
@@ -46,7 +44,6 @@ void	*monitor_routine(void *args)
 
 	data = ((t_args *)args)->data;
 	philosopher_idx = ((t_args *)args)->philosopher_idx;
-	sleep(1);
 	while (1)
 	{
 		if (data->philosophers[philosopher_idx].status == DEAD

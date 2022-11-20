@@ -6,27 +6,45 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:18:20 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/19 17:40:47 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/20 19:16:06 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-static void	initiate_process(t_data *data)
+static void	begin_supper(t_data *data)
 {
 	int				idx;
-	struct timeval	init_time;
+	struct timeval	now;
 
 	idx = 0;
-	gettimeofday(&init_time, NULL);
+	gettimeofday(&now, NULL);
+	data->start_time = now;
 	while (idx < data->rule.number_of_philosophers)
 	{
-		data->philosophers[idx].think_since = init_time;
-		pthread_mutex_lock(&(data->philosophers[idx].status_key));
-		data->philosophers[idx].status = THINKING;
-		pthread_mutex_unlock(&(data->philosophers[idx].status_key));
+		data->philosophers->think_since = now;
 		idx++;
 	}
+	data->running = 1;
+}
+
+static int	full_check(t_data *data)
+{
+	int	idx;
+	int	all_full;
+
+	idx = 0;
+	all_full = 1;
+	while (idx < data->rule.number_of_philosophers)
+	{
+		if (data->philosophers[idx].eating_count < data->rule.recursion_count)
+		{
+			all_full = 0;
+			break ;
+		}
+		idx++;
+	}
+	return (all_full);
 }
 
 void	*routine_monitor(void *args)
@@ -36,23 +54,22 @@ void	*routine_monitor(void *args)
 	struct timeval	now;
 
 	data = (t_data *)args;
-	initiate_process(data);
-	while (1)
+	begin_supper(data);
+	while (data->running)
 	{
 		gettimeofday(&now, NULL);
 		idx = 0;
 		while (idx < data->rule.number_of_philosophers)
 		{
-			pthread_mutex_lock(&(data->philosophers[idx].status_key));
-			if ((data->philosophers[idx].status & (WAITING | FULL)) == 0
-				&& get_time_difference_in_ms(
-					&(data->philosophers[idx].think_since),
+			if (full_check(data))
+				return (NULL);
+			if (get_time_difference_in_ms(&data->philosophers[idx].think_since,
 					&now) >= data->rule.time_to_die)
 			{
 				print_message(data, &now, idx, DEAD);
-				kill_switch(data);
 				break ;
 			}
+			idx++;
 		}
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:24:49 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/18 15:59:12 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/20 13:32:58 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,21 +113,25 @@ int	set_mutex(t_data *data)
 {
 	if (set_order_key(data) == _FUNCTIONAL_ERROR)
 	{
+		printf("order key error\n");
 		return (_FUNCTIONAL_ERROR);
 	}
 	if (set_status_key(data) == _FUNCTIONAL_ERROR)
 	{
+		printf("status key error\n");
 		delete_mutex(data, 1);
 		return (_FUNCTIONAL_ERROR);
 	}
 	if (set_forks(data) == _FUNCTIONAL_ERROR)
 	{
+		printf("fork error\n");
 		delete_mutex(data, 0);
 		delete_mutex(data, 1);
 		return (_FUNCTIONAL_ERROR);
 	}
 	if (set_print_key(data) == _FUNCTIONAL_ERROR)
 	{
+		printf("print key error\n");
 		delete_mutex(data, 0);
 		delete_mutex(data, 1);
 		delete_mutex(data, 2);

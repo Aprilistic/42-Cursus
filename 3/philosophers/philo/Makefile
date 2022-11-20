@@ -5,44 +5,44 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/09/03 19:35:26 by jinheo            #+#    #+#              #
-#    Updated: 2022/09/08 16:19:27 by jinheo           ###   ########.fr        #
+#    Created: 2022/09/17 17:24:07 by jinheo            #+#    #+#              #
+#    Updated: 2022/11/20 19:47:03 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Werror -Wall -Wextra
 
-SRCS = philo/practice.c
+RM = rm -rf
+
+SRCS = main.c delete.c routine_philosopher.c routine_monitor.c \
+	set_data.c set_mutex.c utility.c run.c
 OBJS = $(SRCS:.c=.o)
 
-NAME = test
-
 .c.o :
-		@$(CC) $(CFLAGS) -c $< -o $@
+			@$(CC) $(CFLAGS) -c $< -o $@
 
-all	: $(NAME)
+NAME = philo
 
-$(NAME) :
-		@echo "Compiling .c files..."
-		@make $(OBJS)
-		@echo "Compiling .o files..."
-		@$(CC) $(CFLAGS) -lpthread $(OBJS) -o $(NAME)
-		@echo "Done!"
+$(NAME) : $(OBJS)
+		@echo "Making .o files..."
+		@$(CC) $(CFLAGS) -lpthread -o $@ $^
+		@echo "Making exec files..."
 
+all :
+		@make $(NAME)
 
 clean :
 		@echo "Erasing .o files..."
-		@rm -rf $(OBJS)
-		@echo "Done!"
-		
+		@$(RM) $(OBJS)
 
 fclean :
 		@make clean
 		@echo "Erasing exec files..."
-		@rm -rf $(NAME)
-		@echo "Done!"
+		@$(RM) $(NAME)
 
 re :
 		@make fclean
 		@make all
+
+.PHONY : all clean fclean re

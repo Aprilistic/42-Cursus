@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/19 16:57:43 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/20 18:50:18 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,20 @@ static int	set_memory(t_data *data)
 		write(STDERR_FILENO, "malloc() failed.\n", 17);
 		return (_FUNCTIONAL_ERROR);
 	}
-	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+	data->forks_key = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* data->rule.number_of_philosophers);
+	if (data->forks_key == NULL)
+	{
+		free(data->philosophers);
+		write(STDERR_FILENO, "malloc() failed.\n", 17);
+		return (_FUNCTIONAL_ERROR);
+	}
+	data->forks = (int *)malloc(sizeof(int)
 			* data->rule.number_of_philosophers);
 	if (data->forks == NULL)
 	{
 		free(data->philosophers);
+		free(data->forks_key);
 		write(STDERR_FILENO, "malloc() failed.\n", 17);
 		return (_FUNCTIONAL_ERROR);
 	}
@@ -78,15 +87,13 @@ static void	set_default_value(t_data *data)
 	idx = 0;
 	while (idx < data->rule.number_of_philosophers)
 	{
-		data->philosophers->parent_directory = data;
+		data->philosophers[idx].parent_directory = data;
 		data->philosophers[idx].philosopher_idx = idx;
-		data->philosophers[idx].order = UNAUTHORIZED;
-		data->philosophers[idx].status = WAITING;
-		data->philosophers[idx].left_fork = 0;
-		data->philosophers[idx].right_fork = 0;
-		data->philosophers->eating_count = 0;
+		data->philosophers[idx].eating_count = 0;
+		data->forks[idx] = 0;
 		idx++;
 	}
+	data->running = 0;
 }
 
 int	set_data(t_data *data, int argc, char *argv[])

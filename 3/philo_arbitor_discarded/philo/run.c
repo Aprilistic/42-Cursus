@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 13:04:00 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/19 17:25:11 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/20 14:25:32 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	run_philosophers(t_data *data)
 			write(STDERR_FILENO, "pthread_create() failed.\n", 25);
 			return (_FUNCTIONAL_ERROR);
 		}
-		printf("philo %d entered\n", idx + 1);
 		idx++;
 	}
 	return (0);
@@ -47,7 +46,6 @@ static int	run_monitor(t_data *data)
 		write(STDERR_FILENO, "pthread_create() failed.\n", 25);
 		return (_FUNCTIONAL_ERROR);
 	}
-	printf("monitor entered\n");
 	return (0);
 }
 
@@ -69,7 +67,6 @@ static int	run_waiter(t_data *data)
 		write(STDERR_FILENO, "pthread_create() failed.\n", 25);
 		return (_FUNCTIONAL_ERROR);
 	}
-	printf("waiter entered\n");
 	return (0);
 }
 

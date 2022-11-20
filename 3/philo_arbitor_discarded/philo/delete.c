@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:05:05 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/19 16:47:47 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/20 13:31:44 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	delete_threads(t_data *data, int mode)
 		{
 			if (pthread_detach(data->philosophers[idx].philosopher))
 				error |= write(STDERR_FILENO,
-						"pthread_mutex_destroy() failed.\n", 32);
+						"pthread_detach() failed.\n", 25);
 			idx++;
 		}
 	}
@@ -74,7 +74,7 @@ int	delete_threads(t_data *data, int mode)
 	else if (mode == 2)
 		target = &(data->waiter);
 	if ((mode & 3) && pthread_detach(*target))
-		error |= write(STDERR_FILENO, "pthread_mutex_destroy() failed.\n", 32);
+		error |= write(STDERR_FILENO, "pthread_detach() failed.\n", 25);
 	if (error)
 		return (_FUNCTIONAL_ERROR);
 	return (0);
