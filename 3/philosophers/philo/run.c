@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:10:04 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/20 18:52:47 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/21 20:37:05 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,21 @@ int	run_threads(t_data *data)
 		return (_FUNCTIONAL_ERROR);
 	}
 	return (0);
+}
+
+int	running_status_check(t_data *data)
+{
+	int	ret;
+
+	pthread_mutex_lock(&data->running_key);
+	ret = data->running;
+	pthread_mutex_unlock(&data->running_key);
+	return (ret);
+}
+
+void	running_status_change(t_data *data, int change_to)
+{
+	pthread_mutex_lock(&data->running_key);
+	data->running = change_to;
+	pthread_mutex_unlock(&data->running_key);
 }

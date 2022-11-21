@@ -6,12 +6,12 @@
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/17 17:24:07 by jinheo            #+#    #+#              #
-#    Updated: 2022/11/20 19:47:03 by jinheo           ###   ########.fr        #
+#    Updated: 2022/11/21 21:04:03 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g -fsanitize=thread
+CFLAGS = -Werror -Wall -Wextra
 
 RM = rm -rf
 
@@ -26,7 +26,7 @@ NAME = philo
 
 $(NAME) : $(OBJS)
 		@echo "Making .o files..."
-		@$(CC) $(CFLAGS) -lpthread -o $@ $^
+		@$(CC) $(CFLAGS) -pthread -o $@ $^
 		@echo "Making exec files..."
 
 all :

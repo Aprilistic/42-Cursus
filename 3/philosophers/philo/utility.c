@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/20 19:23:28 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/21 20:52:46 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ int	get_time_difference_in_ms(struct timeval *start, struct timeval *end)
 	time_difference_in_ms = (end->tv_sec - start->tv_sec) * 1000 + (end->tv_usec
 			- start->tv_usec) / 1000;
 	return ((int)time_difference_in_ms);
+}
+
+void	wait_till(struct timeval *start, int duration)
+{
+	struct timeval	now;
+
+	while (1)
+	{
+		gettimeofday(&now, NULL);
+		if (get_time_difference_in_ms(start, &now) >= duration)
+			break ;
+		usleep(900);
+	}
+}
+
+void	update_timestamp(t_philosopher *info, struct timeval *now)
+{
+	pthread_mutex_lock(&info->time_key);
+	info->last_status_change = *now;
+	pthread_mutex_unlock(&info->time_key);
 }
 
 void	print_message(t_data *data, struct timeval *now, int philosopher_idx,

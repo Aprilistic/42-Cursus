@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/20 20:18:31 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/21 20:51:14 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,14 @@ static void	eat(t_philosopher *info)
 
 	data = info->parent_directory;
 	philosopher_idx = info->philosopher_idx;
+	pthread_mutex_lock(&info->count_key);
 	info->eating_count++;
+	pthread_mutex_unlock(&info->count_key);
 	gettimeofday(&now, NULL);
-	info->starved_since = now;
+	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, EATING);
-	usleep(data->rule.time_to_eat * MILI_SEC);
+	usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
+	wait_till(&now, data->rule.time_to_eat);
 }
 
 static void	sleep_and_think(t_philosopher *info)
@@ -86,12 +89,14 @@ static void	sleep_and_think(t_philosopher *info)
 	data = info->parent_directory;
 	philosopher_idx = info->philosopher_idx;
 	gettimeofday(&now, NULL);
+	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, SLEEPING);
-	usleep(data->rule.time_to_sleep * MILI_SEC);
+	usleep(data->rule.time_to_sleep * SLEEP_FACTOR * MILI_SEC);
+	wait_till(&now, data->rule.time_to_sleep);
 	gettimeofday(&now, NULL);
-	info->starved_since = now;
+	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, THINKING);
-	usleep(data->rule.time_to_die / 2 * MILI_SEC);
+	usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
 }
 
 void	*routine_philosopher(void *args)
@@ -101,12 +106,12 @@ void	*routine_philosopher(void *args)
 
 	info = (t_philosopher *)args;
 	data = info->parent_directory;
-	while (!data->running)
+	while (!running_status_check(data))
 	{
 	}
 	if (info->philosopher_idx & 1)
-		usleep(data->rule.time_to_eat / 2 * MILI_SEC);
-	while (data->running)
+		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
+	while (running_status_check(data))
 	{
 		grab(info->parent_directory, info->philosopher_idx);
 		eat(info);
