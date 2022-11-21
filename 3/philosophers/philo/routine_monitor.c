@@ -22,7 +22,7 @@ static void	begin_supper(t_data *data)
 	data->start_time = now;
 	while (idx < data->rule.number_of_philosophers)
 	{
-		data->philosophers->think_since = now;
+		data->philosophers->starved_since = now;
 		idx++;
 	}
 	data->running = 1;
@@ -63,7 +63,7 @@ void	*routine_monitor(void *args)
 		{
 			if (full_check(data))
 				return (NULL);
-			if (get_time_difference_in_ms(&data->philosophers[idx].think_since,
+			if (get_time_difference_in_ms(&data->philosophers[idx].starved_since,
 					&now) >= data->rule.time_to_die)
 			{
 				print_message(data, &now, idx, DEAD);
@@ -71,6 +71,7 @@ void	*routine_monitor(void *args)
 			}
 			idx++;
 		}
+		usleep(700);
 	}
 	return (NULL);
 }

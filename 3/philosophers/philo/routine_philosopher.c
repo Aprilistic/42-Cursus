@@ -72,6 +72,7 @@ static void	eat(t_philosopher *info)
 	philosopher_idx = info->philosopher_idx;
 	info->eating_count++;
 	gettimeofday(&now, NULL);
+	info->starved_since = now;
 	print_message(data, &now, philosopher_idx, EATING);
 	usleep(data->rule.time_to_eat * MILI_SEC);
 }
@@ -88,7 +89,7 @@ static void	sleep_and_think(t_philosopher *info)
 	print_message(data, &now, philosopher_idx, SLEEPING);
 	usleep(data->rule.time_to_sleep * MILI_SEC);
 	gettimeofday(&now, NULL);
-	info->think_since = now;
+	info->starved_since = now;
 	print_message(data, &now, philosopher_idx, THINKING);
 	usleep(data->rule.time_to_die / 2 * MILI_SEC);
 }

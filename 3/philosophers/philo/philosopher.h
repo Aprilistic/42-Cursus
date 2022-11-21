@@ -62,7 +62,7 @@ typedef struct s_philosopher
 	pthread_t		philosopher;
 	int				philosopher_idx;
 	int				eating_count;
-	struct timeval	think_since;
+	struct timeval	starved_since;
 }					t_philosopher;
 
 typedef struct s_data
