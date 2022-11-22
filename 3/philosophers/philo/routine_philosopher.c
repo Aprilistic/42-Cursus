@@ -19,8 +19,7 @@ static void	grab(t_data *data, int philosopher_idx)
 	struct timeval	now;
 
 	left = philosopher_idx;
-	right = get_next_index(data->rule.number_of_philosophers, philosopher_idx,
-			1);
+	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
 	if (philosopher_idx % 2)
 	{
 		pthread_mutex_lock(&data->forks_key[left]);

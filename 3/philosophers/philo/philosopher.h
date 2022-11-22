@@ -91,8 +91,6 @@ int						running_status_check(t_data *data);
 void					running_status_change(t_data *data, int change_to);
 
 // utility.c
-int						get_next_index(int max_index, int cur_index,
-							int offset);
 int						get_time_difference_in_ms(struct timeval *start,
 							struct timeval *end);
 void					wait_till(struct timeval *start, int duration);

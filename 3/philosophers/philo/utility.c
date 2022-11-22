@@ -12,11 +12,6 @@
 
 #include "philosopher.h"
 
-int	get_next_index(int max_index, int cur_index, int offset)
-{
-	return ((cur_index + max_index + offset) % max_index);
-}
-
 int	get_time_difference_in_ms(struct timeval *start, struct timeval *end)
 {
 	int	time_difference_in_ms;
