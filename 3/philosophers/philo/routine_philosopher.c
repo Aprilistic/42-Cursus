@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/21 20:51:14 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/22 18:41:50 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ static void	grab(t_data *data, int philosopher_idx)
 	gettimeofday(&now, NULL);
 	data->forks[right] = 1;
 	print_message(data, &now, philosopher_idx, TAKEN);
-	if (solo_deadlock_exception(data))
+	if (solo_deadlock_exception(data) || philosopher_idx % 2)
 		return ;
-	if (philosopher_idx % 2 == 0)
-	{
-		pthread_mutex_lock(&data->forks_key[left]);
-		gettimeofday(&now, NULL);
-		data->forks[left] = 1;
-		print_message(data, &now, philosopher_idx, TAKEN);
-	}
+	pthread_mutex_lock(&data->forks_key[left]);
+	gettimeofday(&now, NULL);
+	data->forks[left] = 1;
+	print_message(data, &now, philosopher_idx, TAKEN);
 }
 
 static void	release(t_data *data, int philosopher_idx)
@@ -73,11 +70,11 @@ static void	eat(t_philosopher *info)
 
 	data = info->parent_directory;
 	philosopher_idx = info->philosopher_idx;
+	gettimeofday(&now, NULL);
+	update_timestamp(info, &now);
 	pthread_mutex_lock(&info->count_key);
 	info->eating_count++;
 	pthread_mutex_unlock(&info->count_key);
-	gettimeofday(&now, NULL);
-	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, EATING);
 	usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 	wait_till(&now, data->rule.time_to_eat);
@@ -120,7 +117,7 @@ void	*routine_philosopher(void *args)
 		eat(info);
 		release(info->parent_directory, info->philosopher_idx);
 		if (info->eating_count >= data->rule.recursion_count
-				|| !running_status_check(data))
+			|| !running_status_check(data))
 			break ;
 		sleep_and_think(info);
 	}
