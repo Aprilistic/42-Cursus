@@ -31,6 +31,8 @@ static void	grab(t_data *data, int philosopher_idx)
 	gettimeofday(&now, NULL);
 	data->forks[right] = 1;
 	print_message(data, &now, philosopher_idx, TAKEN);
+	if (solo_deadlock_exception(data))
+		return ;
 	if (philosopher_idx % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks_key[left]);
@@ -47,6 +49,8 @@ static void	release(t_data *data, int philosopher_idx)
 
 	left = philosopher_idx;
 	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
+	if (data->rule.number_of_philosophers == 1)
+		return ;
 	if (philosopher_idx % 2)
 	{
 		data->forks[left] = 0;
@@ -115,7 +119,8 @@ void	*routine_philosopher(void *args)
 		grab(info->parent_directory, info->philosopher_idx);
 		eat(info);
 		release(info->parent_directory, info->philosopher_idx);
-		if (info->eating_count >= data->rule.recursion_count || !data->running)
+		if (info->eating_count >= data->rule.recursion_count
+				|| !running_status_check(data))
 			break ;
 		sleep_and_think(info);
 	}

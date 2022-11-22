@@ -66,3 +66,12 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 	}
 	pthread_mutex_unlock(&(data->print_key));
 }
+
+int	solo_deadlock_exception(t_data *data)
+{
+	if (data->rule.number_of_philosophers != 1)
+		return (0);
+	usleep(data->rule.time_to_die * MILI_SEC);
+	pthread_mutex_unlock(&data->forks_key[0]);
+	return (1);
+}

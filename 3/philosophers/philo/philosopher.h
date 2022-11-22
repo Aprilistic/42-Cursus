@@ -98,6 +98,7 @@ void					update_timestamp(t_philosopher *info,
 							struct timeval *now);
 void					print_message(t_data *data, struct timeval *now,
 							int philosopher_idx, int mode);
+int						solo_deadlock_exception(t_data *data);
 
 // routine_*.c
 void					*routine_philosopher(void *args);
