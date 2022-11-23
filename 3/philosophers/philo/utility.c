@@ -46,7 +46,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 {
 	int	timestamp;
 
-	if (!data->running)
+	if (!running_status_check(data))
 		return ;
 	pthread_mutex_lock(&(data->print_key));
 	timestamp = get_time_difference_in_ms(&(data->start_time), now);
@@ -61,7 +61,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 		printf(GRN "%d %d is thinking\n" RESET, timestamp, philosopher_idx + 1);
 	else if (mode == DEAD && data->running)
 	{
-		data->running = 0;
+		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
 	}
 	pthread_mutex_unlock(&(data->print_key));
