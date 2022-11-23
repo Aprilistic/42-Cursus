@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/22 18:00:59 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/23 17:17:30 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 		return ;
 	pthread_mutex_lock(&(data->print_key));
 	timestamp = get_time_difference_in_ms(&(data->start_time), now);
-	if (mode == TAKEN && data->running)
+	if (mode == TAKEN && running_status_check(data))
 		printf(YEL "%d %d has taken a fork\n" RESET, timestamp, philosopher_idx
 			+ 1);
-	else if (mode == EATING && data->running)
+	else if (mode == EATING && running_status_check(data))
 		printf(WHT "%d %d is eating\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == SLEEPING && data->running)
+	else if (mode == SLEEPING && running_status_check(data))
 		printf(BLU "%d %d is sleeping\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == THINKING && data->running)
+	else if (mode == THINKING && running_status_check(data))
 		printf(GRN "%d %d is thinking\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == DEAD && data->running)
+	else if (mode == DEAD && running_status_check(data))
 	{
 		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
