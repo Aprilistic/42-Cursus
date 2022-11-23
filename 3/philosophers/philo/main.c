@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 		return (message_functional_error());
 	if (set_mutex(&data) == _FUNCTIONAL_ERROR)
 	{
-		delete_data(&data);
+		delete_data(&data, 1 | 2 | 4);
 		return (message_functional_error());
 	}
 	if (run_threads(&data) == _FUNCTIONAL_ERROR)
