@@ -64,7 +64,7 @@ static int	set_memory(t_data *data)
 			* data->rule.number_of_philosophers);
 	if (data->forks_key == NULL)
 	{
-		free(data->philosophers);
+		delete_data(data, 1);
 		write(STDERR_FILENO, "malloc() failed.\n", 17);
 		return (_FUNCTIONAL_ERROR);
 	}
@@ -72,8 +72,7 @@ static int	set_memory(t_data *data)
 			* data->rule.number_of_philosophers);
 	if (data->forks == NULL)
 	{
-		free(data->philosophers);
-		free(data->forks_key);
+		delete_data(data, 1 | 2);
 		write(STDERR_FILENO, "malloc() failed.\n", 17);
 		return (_FUNCTIONAL_ERROR);
 	}

@@ -105,7 +105,7 @@ void					*routine_philosopher(void *args);
 void					*routine_monitor(void *args);
 
 // delete.c
-void					delete_data(t_data *data);
+void					delete_data(t_data *data, int mode);
 int						delete_mutex(t_data *data, int mode);
 void					induce_thread_exit(t_data *data);
 int						retrieve_resource(t_data *data);

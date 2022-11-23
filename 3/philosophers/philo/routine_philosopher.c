@@ -113,9 +113,9 @@ void	*routine_philosopher(void *args)
 		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 	while (running_status_check(data))
 	{
-		grab(info->parent_directory, info->philosopher_idx);
+		grab(data, info->philosopher_idx);
 		eat(info);
-		release(info->parent_directory, info->philosopher_idx);
+		release(data, info->philosopher_idx);
 		if (info->eating_count >= data->rule.recursion_count
 			|| !running_status_check(data))
 			break ;

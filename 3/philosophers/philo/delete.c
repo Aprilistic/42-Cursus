@@ -12,13 +12,14 @@
 
 #include "philosopher.h"
 
-void	delete_data(t_data *data)
+//mode philosophers : 1, forks_key : 2, forks : 4
+void	delete_data(t_data *data, int mode)
 {
-	if (data->philosophers)
+	if ((mode & 1) && data->philosophers)
 		free(data->philosophers);
-	if (data->forks_key)
+	if ((mode & 2) && data->forks_key)
 		free(data->forks_key);
-	if (data->forks)
+	if ((mode & 4) && data->forks)
 		free(data->forks);
 }
 
@@ -79,7 +80,7 @@ int	retrieve_resource(t_data *data)
 		error_flag |= write(STDERR_FILENO, "pthread_join() failed.\n", 23);
 	usleep(100 * MILI_SEC);
 	error_flag |= delete_mutex(data, 1 | 2 | 4 | 8);
-	delete_data(data);
+	delete_data(data, 1 | 2 | 4);
 	if (error_flag)
 		return (_FUNCTIONAL_ERROR);
 	return (0);
