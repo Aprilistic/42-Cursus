@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:05:05 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/21 20:54:07 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/23 19:59:59 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	delete_mutex(t_data *data, int mode)
 void	induce_thread_exit(t_data *data)
 {
 	running_status_change(data, 1);
-	usleep(10 * MILI_SEC);
+	usleep(100 * MILI_SEC);
 	running_status_change(data, 0);
 }
 

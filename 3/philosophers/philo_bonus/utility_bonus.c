@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility.c                                          :+:      :+:    :+:   */
+/*   utility_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/23 17:29:50 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/23 17:51:40 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "philosopher_bonus.h"
 
 int	get_time_difference_in_ms(struct timeval *start, struct timeval *end)
 {
@@ -36,9 +36,9 @@ void	wait_till(struct timeval *start, int duration)
 
 void	update_timestamp(t_philosopher *info, struct timeval *now)
 {
-	pthread_mutex_lock(&info->time_key);
+	sem_wait(&info->time_key);
 	info->last_status_change = *now;
-	pthread_mutex_unlock(&info->time_key);
+	sem_post(&info->time_key);
 }
 
 void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
@@ -48,7 +48,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 
 	if (!running_status_check(data))
 		return ;
-	pthread_mutex_lock(&(data->print_key));
+	sem_wait(&data->print_key);
 	timestamp = get_time_difference_in_ms(&(data->start_time), now);
 	if (mode == TAKEN && running_status_check(data))
 		printf(YEL "%d %d has taken a fork\n" RESET, timestamp, philosopher_idx
@@ -64,7 +64,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
 	}
-	pthread_mutex_unlock(&(data->print_key));
+	sem_post(&data->print_key);
 }
 
 int	solo_deadlock_exception(t_data *data)
