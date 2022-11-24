@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 19:01:29 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:49:50 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 	{
 		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
+		return ;
 	}
 	sem_post(data->print_key);
 }

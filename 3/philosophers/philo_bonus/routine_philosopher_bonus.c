@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 21:20:15 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:51:19 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	*routine_philosopher(void *args)
 	while (!running_status_check(data))
 	{
 	}
-	printf("thread %d initiated\n", info->philosopher_idx + 1);
 	if (info->philosopher_idx & 1)
 		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 	while (running_status_check(data))
