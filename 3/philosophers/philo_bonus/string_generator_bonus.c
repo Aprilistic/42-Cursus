@@ -20,28 +20,54 @@ static int	ft_strlen(char *str)
 	while (str[len++])
 	{
 	}
-	return (len);
+	return (--len);
 }
 
-static int	ft_intlen(int n)
+static void ft_strcpy(char *src, char *dest)
 {
-	int	len;
-
-	len = 0;
-	if (n == 0)
-		return (1);
-	while (n)
+	while (1)
 	{
-		len++;
-		n /= 10;
+		*dest = *src;
+		if (!*src)
+			break;
+		dest++;
+		src++;
 	}
-	return (len);
 }
 
-//prefix : "*_"
-char	*index_string(char *prefix, int index)
+static void	set_index_area(char *indexed_string, int index)
 {
-	char	*indexed_string;
-	int		required_length;
-	
+	int format_len;
+	int idx;
+
+	format_len = ft_strlen(indexed_string);
+	idx = format_len + 8;
+	printf("chk %d %s\n", format_len, indexed_string);
+	indexed_string[format_len] = '_';
+	printf("chk %d %s\n", format_len, indexed_string);
+	while (idx > format_len)
+	{
+		indexed_string[idx] = index % 10 + '0';
+		index /= 10;
+		idx--;
+	}
+	indexed_string[format_len + 9] = 0;
+}
+
+//format : "*" 8-digits index
+char	*index_string(char *format, int index)
+{
+	char *indexed_string;
+	int	format_len;
+
+	format_len = ft_strlen(format);
+	indexed_string = (char *)malloc(format_len + 10);
+	if (indexed_string == NULL)
+	{
+		write(STDERR_FILENO, "malloc() failed.\n", 17);
+		return (NULL);
+	}
+	ft_strcpy(format, indexed_string);
+	set_index_area(indexed_string, index);
+	return (indexed_string);
 }
