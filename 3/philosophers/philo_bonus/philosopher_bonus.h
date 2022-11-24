@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/23 20:25:26 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 20:29:49 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define PHILOSOPHER_BONUS_H
 
 # include <pthread.h>
+# include <semaphore.h>
+# include <stdatomic.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <semaphore.h>
 
 // Error code
 # define _INPUT_ERROR -1
@@ -61,11 +62,9 @@ typedef struct s_data	t_data;
 typedef struct s_philosopher
 {
 	t_data				*parent_directory;
-	pthread_t			philosopher;
-	int					philosopher_idx;
-	sem_t				*count_key;
-	int					eating_count;
-	sem_t				*time_key;
+	pid_t				philosopher;
+	atomic_int			philosopher_idx;
+	atomic_int			eating_count;
 	struct timeval		last_status_change;
 }						t_philosopher;
 
@@ -82,10 +81,10 @@ typedef struct s_data
 
 // set_*.c
 int						set_data(t_data *data, int argc, char *argv[]);
-int						set_mutex(t_data *data);
+int						set_semaphore(t_data *data);
 
 // run.c
-int						run_threads(t_data *data);
+void					run_thread(t_philosopher *info);
 int						running_status_check(t_data *data);
 void					running_status_change(t_data *data, int change_to);
 
@@ -97,15 +96,12 @@ void					update_timestamp(t_philosopher *info,
 							struct timeval *now);
 void					print_message(t_data *data, struct timeval *now,
 							int philosopher_idx, int mode);
-int						solo_deadlock_exception(t_data *data);
 
 // routine_*.c
 void					*routine_philosopher(void *args);
-void					*routine_monitor(void *args);
 
 // delete.c
 int						delete_semaphore(t_data *data, int mode);
-void					induce_thread_exit(t_data *data);
 int						retrieve_resource(t_data *data);
 
 #endif

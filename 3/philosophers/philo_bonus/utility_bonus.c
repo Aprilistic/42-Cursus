@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/23 17:51:40 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 19:01:29 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void	wait_till(struct timeval *start, int duration)
 
 void	update_timestamp(t_philosopher *info, struct timeval *now)
 {
-	sem_wait(&info->time_key);
 	info->last_status_change = *now;
-	sem_post(&info->time_key);
 }
 
 void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
@@ -48,7 +46,7 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 
 	if (!running_status_check(data))
 		return ;
-	sem_wait(&data->print_key);
+	sem_wait(data->print_key);
 	timestamp = get_time_difference_in_ms(&(data->start_time), now);
 	if (mode == TAKEN && running_status_check(data))
 		printf(YEL "%d %d has taken a fork\n" RESET, timestamp, philosopher_idx
@@ -64,14 +62,5 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
 	}
-	sem_post(&data->print_key);
-}
-
-int	solo_deadlock_exception(t_data *data)
-{
-	if (data->rule.number_of_philosophers != 1)
-		return (0);
-	usleep(data->rule.time_to_die * MILI_SEC);
-	pthread_mutex_unlock(&data->forks_key[0]);
-	return (1);
+	sem_post(data->print_key);
 }

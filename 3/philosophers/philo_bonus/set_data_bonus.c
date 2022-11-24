@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/23 17:48:02 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 20:33:08 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	set_default_value(t_data *data)
 	while (idx < data->rule.number_of_philosophers)
 	{
 		data->philosophers[idx].parent_directory = data;
-		data->philosophers[idx].philosopher_idx = -1;
+		data->philosophers[idx].philosopher_idx = idx;
 		data->philosophers[idx].eating_count = 0;
 		idx++;
 	}

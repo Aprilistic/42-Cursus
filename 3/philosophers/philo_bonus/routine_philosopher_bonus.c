@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/23 17:31:00 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:20:15 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,37 @@
 
 static void	grab(t_data *data, int philosopher_idx)
 {
-	int				left;
-	int				right;
 	struct timeval	now;
 
-	left = philosopher_idx;
-	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
-	if (philosopher_idx % 2)
+	sem_wait(data->forks_key);
+	gettimeofday(&now, NULL);
+	if (get_time_difference_in_ms(
+			&data->philosophers[philosopher_idx].last_status_change,
+			&now) >= data->rule.time_to_die)
 	{
-		pthread_mutex_lock(&data->forks_key[left]);
-		gettimeofday(&now, NULL);
-		data->forks[left] = 1;
-		print_message(data, &now, philosopher_idx, TAKEN);
+		print_message(data, &now, philosopher_idx, DEAD);
+		sem_post(data->forks_key);
+		exit(0);
 	}
-	pthread_mutex_lock(&data->forks_key[right]);
-	gettimeofday(&now, NULL);
-	data->forks[right] = 1;
 	print_message(data, &now, philosopher_idx, TAKEN);
-	if (solo_deadlock_exception(data) || philosopher_idx % 2)
-		return ;
-	pthread_mutex_lock(&data->forks_key[left]);
+	sem_wait(data->forks_key);
 	gettimeofday(&now, NULL);
-	data->forks[left] = 1;
+	if (get_time_difference_in_ms(
+			&data->philosophers[philosopher_idx].last_status_change,
+			&now) >= data->rule.time_to_die)
+	{
+		print_message(data, &now, philosopher_idx, DEAD);
+		sem_post(data->forks_key);
+		sem_post(data->forks_key);
+		exit(0);
+	}
 	print_message(data, &now, philosopher_idx, TAKEN);
 }
 
-static void	release(t_data *data, int philosopher_idx)
+static void	release(t_data *data)
 {
-	int	left;
-	int	right;
-
-	left = philosopher_idx;
-	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
-	if (data->rule.number_of_philosophers == 1)
-		return ;
-	if (philosopher_idx % 2)
-	{
-		data->forks[left] = 0;
-		pthread_mutex_unlock(&data->forks_key[left]);
-	}
-	data->forks[right] = 0;
-	pthread_mutex_unlock(&data->forks_key[right]);
-	if (philosopher_idx % 2 == 0)
-	{
-		data->forks[left] = 0;
-		pthread_mutex_unlock(&data->forks_key[left]);
-	}
+	sem_post(data->forks_key);
+	sem_post(data->forks_key);
 }
 
 static void	eat(t_philosopher *info)
@@ -72,9 +57,7 @@ static void	eat(t_philosopher *info)
 	philosopher_idx = info->philosopher_idx;
 	gettimeofday(&now, NULL);
 	update_timestamp(info, &now);
-	pthread_mutex_lock(&info->count_key);
 	info->eating_count++;
-	pthread_mutex_unlock(&info->count_key);
 	print_message(data, &now, philosopher_idx, EATING);
 	usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 	wait_till(&now, data->rule.time_to_eat);
@@ -109,16 +92,17 @@ void	*routine_philosopher(void *args)
 	while (!running_status_check(data))
 	{
 	}
+	printf("thread %d initiated\n", info->philosopher_idx + 1);
 	if (info->philosopher_idx & 1)
 		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 	while (running_status_check(data))
 	{
 		grab(data, info->philosopher_idx);
 		eat(info);
-		release(data, info->philosopher_idx);
+		release(data);
 		if (info->eating_count >= data->rule.recursion_count
 			|| !running_status_check(data))
-			break ;
+			exit(0);
 		sleep_and_think(info);
 	}
 	return (NULL);
