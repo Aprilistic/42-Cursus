@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 21:13:11 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 21:45:58 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ static void	grab(t_data *data, int philosopher_idx)
 	if (get_time_difference_in_ms(
 			&data->philosophers[philosopher_idx].last_status_change,
 			&now) >= data->rule.time_to_die)
+		print_message(data, &now, philosopher_idx, DEAD);
+	print_message(data, &now, philosopher_idx, TAKEN);
+	if (data->rule.number_of_philosophers == 1)
 	{
-		sem_post(data->forks_key);
+		usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
+		wait_till(&now, data->rule.time_to_die);
+		gettimeofday(&now, NULL);
 		print_message(data, &now, philosopher_idx, DEAD);
 	}
-	print_message(data, &now, philosopher_idx, TAKEN);
 	sem_wait(data->forks_key);
 	gettimeofday(&now, NULL);
 	if (get_time_difference_in_ms(
 			&data->philosophers[philosopher_idx].last_status_change,
 			&now) >= data->rule.time_to_die)
-	{
-		sem_post(data->forks_key);
-		sem_post(data->forks_key);
 		print_message(data, &now, philosopher_idx, DEAD);
-	}
 	print_message(data, &now, philosopher_idx, TAKEN);
 }
 
