@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:40:24 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 21:11:31 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 21:23:34 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	kill_all_child_processes(t_data *data, pid_t except)
 	while (idx < data->rule.number_of_philosophers)
 	{
 		if (data->philosophers[idx].philosopher == !except)
-			kill(data->philosophers[idx].philosopher, SIGKILL);
+			kill(data->philosophers[idx].philosopher, SIGTERM);
 		idx++;
 	}
 }
