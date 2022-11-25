@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 21:51:19 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 21:13:11 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ static void	grab(t_data *data, int philosopher_idx)
 			&data->philosophers[philosopher_idx].last_status_change,
 			&now) >= data->rule.time_to_die)
 	{
-		print_message(data, &now, philosopher_idx, DEAD);
 		sem_post(data->forks_key);
-		exit(0);
+		print_message(data, &now, philosopher_idx, DEAD);
 	}
 	print_message(data, &now, philosopher_idx, TAKEN);
 	sem_wait(data->forks_key);
@@ -33,10 +32,9 @@ static void	grab(t_data *data, int philosopher_idx)
 			&data->philosophers[philosopher_idx].last_status_change,
 			&now) >= data->rule.time_to_die)
 	{
+		sem_post(data->forks_key);
+		sem_post(data->forks_key);
 		print_message(data, &now, philosopher_idx, DEAD);
-		sem_post(data->forks_key);
-		sem_post(data->forks_key);
-		exit(0);
 	}
 	print_message(data, &now, philosopher_idx, TAKEN);
 }
@@ -79,7 +77,10 @@ static void	sleep_and_think(t_philosopher *info)
 	gettimeofday(&now, NULL);
 	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, THINKING);
-	usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
+	if (data->rule.time_to_die < data->rule.time_to_eat)
+		usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
+	else
+		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 }
 
 void	*routine_philosopher(void *args)
@@ -89,18 +90,15 @@ void	*routine_philosopher(void *args)
 
 	info = (t_philosopher *)args;
 	data = info->parent_directory;
-	while (!running_status_check(data))
-	{
-	}
-	if (info->philosopher_idx & 1)
-		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
-	while (running_status_check(data))
+	wait_till_begin(info);
+	if (info->philosopher_idx % 2)
+		usleep(data->rule.time_to_eat * 0.5 * MILI_SEC);
+	while (1)
 	{
 		grab(data, info->philosopher_idx);
 		eat(info);
 		release(data);
-		if (info->eating_count >= data->rule.recursion_count
-			|| !running_status_check(data))
+		if (info->eating_count >= data->rule.recursion_count)
 			exit(0);
 		sleep_and_think(info);
 	}

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 21:51:30 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 19:10:39 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,15 @@ static int	set_memory(t_data *data)
 static void	set_default_value(t_data *data)
 {
 	int				idx;
-	struct timeval	now;
 
 	idx = 0;
-	gettimeofday(&now, NULL);
 	while (idx < data->rule.number_of_philosophers)
 	{
 		data->philosophers[idx].parent_directory = data;
 		data->philosophers[idx].philosopher_idx = idx;
 		data->philosophers[idx].eating_count = 0;
-		data->philosophers[idx].last_status_change = now;
 		idx++;
 	}
-	data->running = 1;
-	data->start_time = now;
 }
 
 int	set_data(t_data *data, int argc, char *argv[])

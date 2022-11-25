@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 21:49:50 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:47:10 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,21 @@ void	print_message(t_data *data, struct timeval *now, int philosopher_idx,
 {
 	int	timestamp;
 
-	if (!running_status_check(data))
-		return ;
 	sem_wait(data->print_key);
 	timestamp = get_time_difference_in_ms(&(data->start_time), now);
-	if (mode == TAKEN && running_status_check(data))
+	if (mode == TAKEN)
 		printf(YEL "%d %d has taken a fork\n" RESET, timestamp, philosopher_idx
 			+ 1);
-	else if (mode == EATING && running_status_check(data))
+	else if (mode == EATING)
 		printf(WHT "%d %d is eating\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == SLEEPING && running_status_check(data))
+	else if (mode == SLEEPING)
 		printf(BLU "%d %d is sleeping\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == THINKING && running_status_check(data))
+	else if (mode == THINKING)
 		printf(GRN "%d %d is thinking\n" RESET, timestamp, philosopher_idx + 1);
-	else if (mode == DEAD && running_status_check(data))
+	else if (mode == DEAD)
 	{
-		running_status_change(data, 0);
 		printf(RED "%d %d died\n" RESET, timestamp, philosopher_idx + 1);
-		return ;
+		exit(DEAD);
 	}
 	sem_post(data->print_key);
 }

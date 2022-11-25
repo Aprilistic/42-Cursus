@@ -6,7 +6,7 @@
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/17 17:24:07 by jinheo            #+#    #+#              #
-#    Updated: 2022/11/24 20:27:32 by jinheo           ###   ########.fr        #
+#    Updated: 2022/11/25 20:16:48 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -Werror -Wall -Wextra
 RM = rm -rf
 
 SRCS = main_bonus.c delete_bonus.c routine_philosopher_bonus.c \
+	routine_control_bonus.c \
 	set_data_bonus.c set_semaphore_bonus.c utility_bonus.c run_bonus.c
 OBJS = $(SRCS:.c=.o)
 

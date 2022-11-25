@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:27 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 20:36:26 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:41:06 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ static int	sem_unlink_fail(t_data *data, int mode)
 
 int	set_semaphore(t_data *data)
 {
-	int	idx;
-
-	idx = 0;
 	data->forks_key = sem_open("forks", O_CREAT | O_EXCL, 0644,
 			data->rule.number_of_philosophers);
 	if (data->forks_key == SEM_FAILED)
@@ -42,10 +39,10 @@ int	set_semaphore(t_data *data)
 		return (sem_open_fail(data, 1));
 	if (sem_unlink("print"))
 		return (sem_unlink_fail(data, 1));
-	data->running_key = sem_open("running", O_CREAT | O_EXCL, 0644, 1);
-	if (data->running_key == SEM_FAILED)
+	data->start_key = sem_open("start", O_CREAT | O_EXCL, 0644, 1);
+	if (data->start_key == SEM_FAILED)
 		return (sem_open_fail(data, 1 | 2));
-	if (sem_unlink("running"))
+	if (sem_unlink("start"))
 		return (sem_unlink_fail(data, 1 | 2));
 	return (0);
 }

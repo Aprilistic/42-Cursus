@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 20:29:49 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:55:51 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include <pthread.h>
 # include <semaphore.h>
-# include <stdatomic.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <signal.h>
 
 // Error code
 # define _INPUT_ERROR -1
@@ -63,18 +63,17 @@ typedef struct s_philosopher
 {
 	t_data				*parent_directory;
 	pid_t				philosopher;
-	atomic_int			philosopher_idx;
-	atomic_int			eating_count;
+	int					philosopher_idx;
+	int					eating_count;
 	struct timeval		last_status_change;
 }						t_philosopher;
 
 typedef struct s_data
 {
 	t_rule				rule;
+	sem_t				*start_key;
 	sem_t				*forks_key;
 	sem_t				*print_key;
-	sem_t				*running_key;
-	int					running;
 	t_philosopher		*philosophers;
 	struct timeval		start_time;
 }						t_data;
@@ -85,8 +84,7 @@ int						set_semaphore(t_data *data);
 
 // run.c
 void					run_thread(t_philosopher *info);
-int						running_status_check(t_data *data);
-void					running_status_change(t_data *data, int change_to);
+int						fork_process(t_data *data);
 
 // utility.c
 int						get_time_difference_in_ms(struct timeval *start,
@@ -99,9 +97,11 @@ void					print_message(t_data *data, struct timeval *now,
 
 // routine_*.c
 void					*routine_philosopher(void *args);
+void					wait_till_begin(t_philosopher *info);
+void					wait_till_end(void);
+int						control_process(t_data *data);
 
 // delete.c
 int						delete_semaphore(t_data *data, int mode);
-int						retrieve_resource(t_data *data);
 
 #endif

@@ -6,27 +6,31 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:10:04 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/24 21:13:48 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/25 19:38:16 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher_bonus.h"
 
-int	running_status_check(t_data *data)
+int	fork_process(t_data *data)
 {
-	int	ret;
+	int	parent_process;
+	int	idx;
 
-	sem_wait(data->running_key);
-	ret = data->running;
-	sem_post(data->running_key);
-	return (ret);
-}
-
-void	running_status_change(t_data *data, int change_to)
-{
-	sem_wait(data->running_key);
-	data->running = change_to;
-	sem_post(data->running_key);
+	parent_process = 1;
+	idx = 0;
+	while (idx < data->rule.number_of_philosophers)
+	{
+		data->philosophers[idx].philosopher = fork();
+		if (data->philosophers[idx].philosopher == 0)
+		{
+			parent_process = 0;
+			run_thread(&data->philosophers[idx]);
+			break ;
+		}
+		idx++;
+	}
+	return (parent_process);
 }
 
 void	run_thread(t_philosopher *info)
