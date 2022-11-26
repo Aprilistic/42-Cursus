@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 21:45:58 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/26 15:12:02 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,11 @@ static void	sleep_and_think(t_philosopher *info)
 	data = info->parent_directory;
 	philosopher_idx = info->philosopher_idx;
 	gettimeofday(&now, NULL);
-	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, SLEEPING);
 	usleep(data->rule.time_to_sleep * SLEEP_FACTOR * MILI_SEC);
 	wait_till(&now, data->rule.time_to_sleep);
 	gettimeofday(&now, NULL);
-	update_timestamp(info, &now);
 	print_message(data, &now, philosopher_idx, THINKING);
-	if (data->rule.time_to_die < data->rule.time_to_eat)
-		usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
-	else
-		usleep(data->rule.time_to_eat * SLEEP_FACTOR * MILI_SEC);
 }
 
 void	*routine_philosopher(void *args)
