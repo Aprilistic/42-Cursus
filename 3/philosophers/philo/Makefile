@@ -6,12 +6,12 @@
 #    By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/17 17:24:07 by jinheo            #+#    #+#              #
-#    Updated: 2022/11/27 17:55:06 by jinheo           ###   ########.fr        #
+#    Updated: 2022/11/27 18:12:32 by jinheo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g -fsanitize=thread
+CFLAGS = -Werror -Wall -Wextra
 
 RM = rm -rf
 
