@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:18:20 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/26 15:16:09 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/27 18:03:01 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,19 @@ static int	full_check(t_data *data)
 static int	dead_check(t_data *data, struct timeval *now, int idx)
 {
 	struct timeval	last_status_change;
+	int				dead;
 
+	dead = 0;
 	pthread_mutex_lock(&data->philosophers[idx].time_key);
 	last_status_change = data->philosophers[idx].last_status_change;
 	pthread_mutex_unlock(&data->philosophers[idx].time_key);
+	pthread_mutex_lock(&data->philosophers[idx].count_key);
 	if (get_time_difference_in_ms(&last_status_change, now)
 		>= data->rule.time_to_die
 		&& data->philosophers[idx].eating_count < data->rule.recursion_count)
-		return (1);
-	return (0);
+		dead = 1;
+	pthread_mutex_unlock(&data->philosophers[idx].count_key);
+	return (dead);
 }
 
 void	*routine_monitor(void *args)
