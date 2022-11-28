@@ -16,10 +16,8 @@
 int	delete_semaphore(t_data *data, int mode)
 {
 	int	error_flag;
-	int	idx;
 
 	error_flag = 0;
-	idx = 0;
 	if ((mode & 1) && sem_close(data->forks_key))
 			error_flag |= write(STDERR_FILENO, "sem_close failed\n", 17);
 	if ((mode & 2) && sem_close(data->print_key))
