@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/26 15:11:29 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/11/28 19:53:52 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,15 @@ static void	grab(t_data *data, int philosopher_idx)
 
 	left = philosopher_idx;
 	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
-	if (philosopher_idx % 2)
-	{
-		pthread_mutex_lock(&data->forks_key[left]);
-		gettimeofday(&now, NULL);
-		data->forks[left] = 1;
-		print_message(data, &now, philosopher_idx, TAKEN);
-	}
-	pthread_mutex_lock(&data->forks_key[right]);
-	gettimeofday(&now, NULL);
-	data->forks[right] = 1;
-	print_message(data, &now, philosopher_idx, TAKEN);
-	if (solo_deadlock_exception(data) || philosopher_idx % 2)
-		return ;
 	pthread_mutex_lock(&data->forks_key[left]);
 	gettimeofday(&now, NULL);
 	data->forks[left] = 1;
+	print_message(data, &now, philosopher_idx, TAKEN);
+	if (solo_deadlock_exception(data))
+		return ;
+	pthread_mutex_lock(&data->forks_key[right]);
+	gettimeofday(&now, NULL);
+	data->forks[right] = 1;
 	print_message(data, &now, philosopher_idx, TAKEN);
 }
 
@@ -48,18 +41,10 @@ static void	release(t_data *data, int philosopher_idx)
 	right = (philosopher_idx + 1) % data->rule.number_of_philosophers;
 	if (data->rule.number_of_philosophers == 1)
 		return ;
-	if (philosopher_idx % 2)
-	{
-		data->forks[left] = 0;
-		pthread_mutex_unlock(&data->forks_key[left]);
-	}
+	data->forks[left] = 0;
+	pthread_mutex_unlock(&data->forks_key[left]);
 	data->forks[right] = 0;
 	pthread_mutex_unlock(&data->forks_key[right]);
-	if (philosopher_idx % 2 == 0)
-	{
-		data->forks[left] = 0;
-		pthread_mutex_unlock(&data->forks_key[left]);
-	}
 }
 
 static void	eat(t_philosopher *info)
