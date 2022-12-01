@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 20:47:10 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/01 20:54:42 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 int	get_time_difference_in_ms(struct timeval *start, struct timeval *end)
 {
-	int	time_difference_in_ms;
-
-	time_difference_in_ms = (end->tv_sec - start->tv_sec) * 1000 + (end->tv_usec
-			- start->tv_usec) / 1000;
-	return ((int)time_difference_in_ms);
+	return ((((end->tv_sec - start->tv_sec) * 1000000)
+			+ (end->tv_usec - start->tv_usec)) / 1000);
 }
 
 void	wait_till(struct timeval *start, int duration)
@@ -30,7 +27,7 @@ void	wait_till(struct timeval *start, int duration)
 		gettimeofday(&now, NULL);
 		if (get_time_difference_in_ms(start, &now) >= duration)
 			break ;
-		usleep(900);
+		usleep(150);
 	}
 }
 

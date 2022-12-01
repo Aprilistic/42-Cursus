@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/21 20:09:55 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/01 20:46:32 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 
 static int	ft_atoi(const char *str)
 {
-	int	ret;
+	long long	ret;
 
 	ret = 0;
 	while (*str)
 	{
-		if (*str < '0' || '9' < *str)
+		if (*str < '0' || '9' < *str || ret > 2147483647)
 			return (_INPUT_ERROR);
 		ret *= 10;
 		ret += *str - '0';
 		str++;
 	}
-	return (ret);
+	return ((int)ret);
 }
 
 static int	set_rule(t_data *data, int argc, char *argv[])
@@ -41,7 +41,7 @@ static int	set_rule(t_data *data, int argc, char *argv[])
 	if (argc == 6)
 		data->rule.recursion_count = ft_atoi(argv[5]);
 	else
-		data->rule.recursion_count = 987654321;
+		data->rule.recursion_count = 2147483647;
 	if (data->rule.number_of_philosophers == _INPUT_ERROR
 		|| data->rule.time_to_die == _INPUT_ERROR
 		|| data->rule.time_to_eat == _INPUT_ERROR
