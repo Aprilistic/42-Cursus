@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:10:04 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 19:38:16 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 19:39:33 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ int	fork_process(t_data *data)
 void	run_thread(t_philosopher *info)
 {
 	pthread_t	thread;
+	pthread_t	monitor;
 
 	if (pthread_create(&thread, NULL, &routine_philosopher, info))
+	{
+		write(STDERR_FILENO, "pthread_create() failed.\n", 25);
+		exit(_FUNCTIONAL_ERROR);
+	}
+	if (pthread_create(&monitor, NULL, &routine_monitor, info))
 	{
 		write(STDERR_FILENO, "pthread_create() failed.\n", 25);
 		exit(_FUNCTIONAL_ERROR);

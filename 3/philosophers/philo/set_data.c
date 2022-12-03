@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/12/01 20:46:32 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 15:18:31 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	ft_atoi(const char *str)
 		ret += *str - '0';
 		str++;
 	}
+	if (ret == 0)
+		return (_INPUT_ERROR);
 	return ((int)ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:52:15 by jinheo            #+#    #+#             */
-/*   Updated: 2022/12/01 20:54:42 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 18:07:18 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,16 @@ void	wait_till(struct timeval *start, int duration)
 
 void	update_timestamp(t_philosopher *info, struct timeval *now)
 {
-	info->last_status_change = *now;
+	while (1)
+	{
+		if (!info->time_key)
+		{
+			info->time_key = 1;
+			info->last_status_change = *now;
+			info->time_key = 0;
+			break ;
+		}
+	}
 }
 
 void	print_message(t_data *data, struct timeval *now, int philosopher_idx,

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:49:55 by jinheo            #+#    #+#             */
-/*   Updated: 2022/12/01 20:55:24 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 18:00:30 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	ft_atoi(const char *str)
 		ret += *str - '0';
 		str++;
 	}
+	if (ret == 0)
+		return (_INPUT_ERROR);
 	return ((int)ret);
 }
 
@@ -73,6 +75,7 @@ static void	set_default_value(t_data *data)
 		data->philosophers[idx].parent_directory = data;
 		data->philosophers[idx].philosopher_idx = idx;
 		data->philosophers[idx].eating_count = 0;
+		data->philosophers[idx].time_key = 0;
 		idx++;
 	}
 }

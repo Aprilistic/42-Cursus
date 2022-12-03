@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/25 20:55:51 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 20:46:52 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <pthread.h>
 # include <semaphore.h>
-# include <stdbool.h>
+# include <stdatomic.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -31,8 +31,7 @@
 # define EATING 2
 # define SLEEPING 4
 # define THINKING 8
-# define FULL 16
-# define DEAD 32
+# define DEAD 16
 
 // Time macro
 # define MILI_SEC 1000
@@ -65,6 +64,7 @@ typedef struct s_philosopher
 	pid_t				philosopher;
 	int					philosopher_idx;
 	int					eating_count;
+	_Atomic int			time_key;
 	struct timeval		last_status_change;
 }						t_philosopher;
 
@@ -97,6 +97,7 @@ void					print_message(t_data *data, struct timeval *now,
 
 // routine_*.c
 void					*routine_philosopher(void *args);
+void					*routine_monitor(void *args);
 void					wait_till_begin(t_philosopher *info);
 void					wait_till_end(void);
 int						control_process(t_data *data);

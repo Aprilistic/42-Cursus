@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/21 20:37:16 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 17:03:18 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PHILOSOPHER_H
 
 # include <pthread.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -29,8 +28,7 @@
 # define EATING 2
 # define SLEEPING 4
 # define THINKING 8
-# define FULL 16
-# define DEAD 32
+# define DEAD 16
 
 // Time macro
 # define MILI_SEC 1000

@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:06:09 by jinheo            #+#    #+#             */
-/*   Updated: 2022/11/26 15:12:02 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/03 20:46:29 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,9 @@ static void	grab(t_data *data, int philosopher_idx)
 
 	sem_wait(data->forks_key);
 	gettimeofday(&now, NULL);
-	if (get_time_difference_in_ms(
-			&data->philosophers[philosopher_idx].last_status_change,
-			&now) >= data->rule.time_to_die)
-		print_message(data, &now, philosopher_idx, DEAD);
 	print_message(data, &now, philosopher_idx, TAKEN);
-	if (data->rule.number_of_philosophers == 1)
-	{
-		usleep(data->rule.time_to_die * SLEEP_FACTOR * MILI_SEC);
-		wait_till(&now, data->rule.time_to_die);
-		gettimeofday(&now, NULL);
-		print_message(data, &now, philosopher_idx, DEAD);
-	}
 	sem_wait(data->forks_key);
 	gettimeofday(&now, NULL);
-	if (get_time_difference_in_ms(
-			&data->philosophers[philosopher_idx].last_status_change,
-			&now) >= data->rule.time_to_die)
-		print_message(data, &now, philosopher_idx, DEAD);
 	print_message(data, &now, philosopher_idx, TAKEN);
 }
 
