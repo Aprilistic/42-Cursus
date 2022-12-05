@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 17:05:19 by jinheo            #+#    #+#             */
-/*   Updated: 2022/12/03 19:37:18 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/05 17:18:40 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	dead_check(t_philosopher *info)
 		}
 	}
 	if (get_time_difference_in_ms(&last_status_change,
-			&now) >= data->rule.time_to_die)
+			&now) >= data->rule.time_to_die
+		&& info->eating_count < data->rule.recursion_count)
 	{
 		print_message(data, &now, info->philosopher_idx, DEAD);
 		return (1);

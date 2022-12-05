@@ -6,7 +6,7 @@
 /*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:47:34 by jinheo            #+#    #+#             */
-/*   Updated: 2022/12/03 20:46:52 by jinheo           ###   ########.fr       */
+/*   Updated: 2022/12/05 17:17:26 by jinheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_philosopher
 	t_data				*parent_directory;
 	pid_t				philosopher;
 	int					philosopher_idx;
-	int					eating_count;
+	_Atomic int			eating_count;
 	_Atomic int			time_key;
 	struct timeval		last_status_change;
 }						t_philosopher;
