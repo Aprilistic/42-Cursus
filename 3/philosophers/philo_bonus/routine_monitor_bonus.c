@@ -42,10 +42,8 @@ static int	dead_check(t_philosopher *info)
 void	*routine_monitor(void *args)
 {
 	t_philosopher	*info;
-	t_data			*data;
 
 	info = (t_philosopher *)args;
-	data = info->parent_directory;
 	while (1)
 	{
 		if (dead_check(info))
