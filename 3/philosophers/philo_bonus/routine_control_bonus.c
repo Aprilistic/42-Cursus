@@ -27,6 +27,7 @@ void	wait_till_end(void)
 {
 	while (1)
 	{
+		usleep(100000);
 	}
 }
 
