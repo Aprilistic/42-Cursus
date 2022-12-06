@@ -45,6 +45,7 @@ void	*routine_monitor(void *args)
 	t_philosopher	*info;
 
 	info = (t_philosopher *)args;
+	wait_till_begin(info);
 	while (1)
 	{
 		if (dead_check(info))

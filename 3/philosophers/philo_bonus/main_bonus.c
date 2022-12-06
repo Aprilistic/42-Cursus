@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 	parent_process = fork_process(&data);
 	if (parent_process)
 	{
+		usleep(data.rule.number_of_philosophers * MILI_SEC);
 		if (control_process(&data))
 			return (message_functional_error());
 	}
