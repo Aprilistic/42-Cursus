@@ -10,6 +10,7 @@ private:
   int oldest_index;
 
   void showAvailableOption() const;
+  std::string getCompressedString(std::string str) const;
   void showSavedContacts() const;
   void getContactInfo() const;
 
@@ -18,7 +19,6 @@ public:
   void searchContact() const;
 
   void runPhoneBookOperation();
-
   PhoneBook();
   ~PhoneBook();
 };
