@@ -100,7 +100,11 @@ void PhoneBook::runPhoneBookOperation() {
     std::cout << "Enter command: ";
     std::cin >> command;
     std::cin.ignore();
-    if (command == "ADD" || command == "1") {
+    if (std::cin.eof()) {
+      std::cout << "Invalid command. Enter again.\n";
+      std::cin.clear();
+      clearerr(stdin);
+    } else if (command == "ADD" || command == "1") {
       std::cout << "Save a new contact\n";
       addContact();
     } else if (command == "SEARCH" || command == "2") {
