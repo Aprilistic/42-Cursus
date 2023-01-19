@@ -3,6 +3,7 @@
 # ============================================================
 
 CXXFLAGS	= -Wall -Werror -Wextra -std=c++98
+RM			= rm -rf
 
 
 # ============================================================
@@ -46,3 +47,5 @@ fclean		: clean
 
 re			: fclean
 		@make all
+		
+.PHONY		: all clean fclean re

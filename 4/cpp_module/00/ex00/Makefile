@@ -1,4 +1,5 @@
 CXXFLAGS	= -Wall -Werror -Wextra -std=c++98
+RM			= rm -rf
 
 NAME		= megaphone
 HEADER		= ./
@@ -24,3 +25,5 @@ clean		:
 fclean		: clean
 		@echo "Removing executable '$(NAME)'..."
 		@RM $(NAME)
+
+.PHONY		: all clean fclean re

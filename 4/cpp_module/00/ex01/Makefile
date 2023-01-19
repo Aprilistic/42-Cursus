@@ -3,6 +3,7 @@
 # ============================================================
 
 CXXFLAGS	= -Wall -Werror -Wextra -std=c++98
+RM			= rm -rf
 
 
 # ============================================================
@@ -43,3 +44,5 @@ clean		:
 fclean		: clean
 		@echo "Removing executable '$(EXECUTABLE)'..."
 		@RM $(EXECUTABLE)
+
+.PHONY		: all clean fclean re
