@@ -43,6 +43,3 @@ clean		:
 fclean		: clean
 		@echo "Removing executable '$(EXECUTABLE)'..."
 		@RM $(EXECUTABLE)
-
-re			: fclean
-		@make all

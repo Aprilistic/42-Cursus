@@ -6,6 +6,12 @@
 void Contact::setNonEmptyString(std::string &str) {
   while (true) {
     std::getline(std::cin, str);
+    if (std::cin.eof()) {
+      std::cout << "Invalid command. Enter again.\n :";
+      std::cin.clear();
+      clearerr(stdin);
+      continue;
+    }
     str.erase(0, str.find_first_not_of("\t\n "));
     str.erase(str.find_last_not_of("\t\n ") + 1);
     if (str.length() > 0)

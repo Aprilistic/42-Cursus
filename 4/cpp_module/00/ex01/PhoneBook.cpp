@@ -53,7 +53,11 @@ void PhoneBook::getContactInfo() const {
   while (1) {
     std::cout << "Select the index to search: ";
     std::cin >> selected_index;
-    if (std::cin.fail()) {
+    if (std::cin.eof()) {
+      std::cout << "Invalid command. Enter again.\n";
+      std::cin.clear();
+      clearerr(stdin);
+    } else if (std::cin.fail()) {
       std::cout << "Wrong datatype. Type integer." << std::endl;
       std::cin.clear();
       std::cin.ignore();
