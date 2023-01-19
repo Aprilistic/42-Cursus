@@ -31,11 +31,24 @@ void Harl::error(void) {
 }
 
 void Harl::complain(std::string level) {
-  void (Harl::*tools[4])(void) = {&Harl::debug, &Harl::info, &Harl::warning,
-                                  &Harl::error};
   const std::string filter[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-  for (int i = 0; i < 4; ++i) {
-    if (level == filter[i])
-      (this->*tools[i])();
+
+  int option;
+  for (option = 0; option < 4; ++option) {
+    if (level == filter[option])
+      break;
+  }
+  switch (option) {
+  case 0:
+    this->debug();
+  case 1:
+    this->info();
+  case 2:
+    this->warning();
+  case 3:
+    this->error();
+    break;
+  default:
+    std::cout<<"Nothing matches your input."<<std::endl;
   }
 }
