@@ -39,10 +39,10 @@ all			: $(EXECUTABLE)
 
 clean		:
 		@echo "Cleaning object files..."
-		@RM $(OBJ)
+		@$(RM) $(OBJ)
 
 fclean		: clean
 		@echo "Removing executable '$(EXECUTABLE)'..."
-		@RM $(EXECUTABLE)
+		@$(RM) $(EXECUTABLE)
 
 .PHONY		: all clean fclean re
