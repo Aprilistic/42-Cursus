@@ -1,0 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit_utils_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/02 19:34:26 by taeypark          #+#    #+#             */
+/*   Updated: 2023/03/02 21:06:29 by jinheo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "function_bonus.h"
+#include "macro_bonus.h"
+#include "struct_bonus.h"
+
+int	in_the_height(t_point3 *contact, t_cylinder *cylinder, double height)
+{
+	double	contact_height;
+
+	contact_height = v_dot(v_sub(*contact, cylinder->center), cylinder->dir);
+	return (-height / 2 <= contact_height && contact_height <= height / 2);
+}
+
+int	hit_by_cylinder(t_ray ray, t_object *object, t_record *hit_record)
+{
+	t_cylinder		*cylinder;
+	t_vec3			save;
+	t_vec3			contact;
+	double			coefft[3];
+
+	cylinder = (t_cylinder *)(object)->equation;
+	save = v_sub(ray.origin, cylinder->center);
+	coefft[0] = v_length_squared(v_cross(cylinder->dir, ray.dir));
+	coefft[1] = 2.0 * v_dot(v_cross(cylinder->dir, save),
+			v_cross(cylinder->dir, ray.dir));
+	coefft[2] = v_length_squared(v_cross(cylinder->dir, save))
+		- pow(cylinder->diameter / 2, 2);
+	if (!straight_curve_contact(ray, coefft, &contact)
+		|| !in_the_height(&contact, cylinder, cylinder->height))
+		return (0);
+	if (closer_contact(ray, contact, hit_record))
+	{
+		update_hit_record(contact, get_cylinder_normal(ray, &contact, cylinder),
+			object->surface, hit_record);
+		return (1);
+	}
+	return (0);
+}
