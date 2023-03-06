@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: taeypark <taeypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 21:09:39 by taeypark          #+#    #+#             */
-/*   Updated: 2023/03/02 21:06:29 by jinheo           ###   ########.fr       */
+/*   Updated: 2023/03/04 19:50:21 by taeypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_explicit_error(int errno)
 	if (errno & RATE)
 		print_error("\t: ratio should be 0~1\n");
 	if (errno & UNIT)
-		print_error("\t: not a unit vector\n");
+		print_error("\t: dir vector cannot be a zero vector\n");
 	if (errno & RGB)
 		print_error("\t: rgb should be 0~255\n");
 	if (errno & UNDEFINED)
@@ -57,7 +57,7 @@ void	print_explicit_error(int errno)
 		print_error("\t: number error\n");
 	if (errno & CAPITAL)
 		print_error("\t: capital identifier count error\n");
-	if (errno == ACCESS)
+	if (errno & ACCESS)
 		print_error("\t: failed to open the file\n");
 }
 

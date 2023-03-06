@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: taeypark <taeypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 19:35:09 by taeypark          #+#    #+#             */
-/*   Updated: 2023/03/02 21:06:30 by jinheo           ###   ########.fr       */
+/*   Updated: 2023/03/04 19:35:30 by taeypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_bonus.h"
 #include "macro_bonus.h"
 #include "function_bonus.h"
+
+void	check_rgb(t_color *color, int *errno)
+{
+	if (!(0 <= color->e[0] && color->e[0] <= 255)
+		|| !(0 <= color->e[1] && color->e[1] <= 255)
+		|| !(0 <= color->e[2] && color->e[2] <= 255))
+		*errno |= RGB;
+}
 
 void	free_two_dimension(char **to_free)
 {
@@ -59,22 +67,24 @@ int	parse(char *file, t_mlx *mlx, int *errno)
 	char	*line;
 
 	fd = open(file, O_RDONLY);
-	if (fd == ERROR)
-		return (ERROR);
-	cap_cnt = 0;
-	init_hittable(&mlx->world);
-	while (*errno == OK)
+	if (fd == ERROR || read(fd, NULL, 0) == ERROR)
+		*errno |= ACCESS;
+	else
 	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (line[0] != '\n'
-			&& parse_object(line, mlx, errno, &cap_cnt) != OK)
-			delete_hittable(&mlx->world);
-		free(line);
+		cap_cnt = 0;
+		init_hittable(&mlx->world);
+		while (*errno == OK)
+		{
+			line = get_next_line(fd);
+			if (line == NULL)
+				break ;
+			if (line[0] != '\n'
+				&& parse_object(line, mlx, errno, &cap_cnt) != OK)
+				delete_hittable(&mlx->world);
+			free(line);
+		}
 	}
 	close(fd);
-	if (*errno == OK && cap_cnt != CAP_CNT)
-		*errno |= CAPITAL;
+	*errno |= (*errno == OK && cap_cnt != CAP_CNT) * CAPITAL;
 	return (*errno);
 }

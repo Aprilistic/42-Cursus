@@ -6,7 +6,7 @@
 /*   By: taeypark <taeypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 19:37:17 by jinheo            #+#    #+#             */
-/*   Updated: 2023/03/02 21:10:35 by taeypark         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:38:41 by taeypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 
 enum	e_error
 {
-	ACCESS = 0,
 	EXTENSION = 1,
 	LENGTH = 2,
 	FOV = 4,
@@ -48,7 +47,8 @@ enum	e_error
 	UNDEFINED = 64,
 	OPTION_CNT = 128,
 	NUM = 256,
-	CAPITAL = 512
+	CAPITAL = 512,
+	ACCESS = 1024
 };
 
 /* our_mlx macros */

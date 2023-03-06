@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinheo <jinheo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: taeypark <taeypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 21:09:39 by taeypark          #+#    #+#             */
-/*   Updated: 2023/03/02 21:08:53 by jinheo           ###   ########.fr       */
+/*   Updated: 2023/03/04 19:37:43 by taeypark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_explicit_error(int errno)
 		print_error("\t: number error\n");
 	if (errno & CAPITAL)
 		print_error("\t: capital identifier count error\n");
-	if (errno == ACCESS)
+	if (errno & ACCESS)
 		print_error("\t: failed to open the file\n");
 }
 
