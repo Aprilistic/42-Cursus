@@ -1,0 +1,3 @@
+[submodule "3/minishell"]
+	path = 3/minishell
+	url = https://github.com/Aprilistic/minishell
