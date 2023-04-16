@@ -1,3 +1,6 @@
 [submodule "3/minishell"]
 	path = 3/minishell
 	url = https://github.com/Aprilistic/minishell
+[submodule "4/miniRT"]
+	path = 4/miniRT
+	url = https://github.com/Aprilistic/miniRT
