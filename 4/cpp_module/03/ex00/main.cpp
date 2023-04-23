@@ -1,16 +1,18 @@
-#include "Fixed.hpp"
+#include "ClapTrap.hpp"
 #include <iostream>
 
-int main() {
-  Fixed a;
-  Fixed b(a);
-  Fixed c;
+int main(){
+  ClapTrap aaa("aaa");
+  ClapTrap bbb("bbb");
+  ClapTrap mmm;
 
-  c = b;
+  aaa.setAttackDamage(6);
+  aaa.attack("bbb");
+  bbb.takeDamage(aaa.getAttackDamage());
 
-  std::cout << a.getRawBits() << std::endl;
-  std::cout << b.getRawBits() << std::endl;
-  std::cout << c.getRawBits() << std::endl;
+  aaa.attack("bbb");
+  bbb.takeDamage(aaa.getAttackDamage());
 
-  return 0;
+  aaa.setEnergyPoints(0);
+  aaa.attack("mmm");
 }
