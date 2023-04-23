@@ -9,9 +9,9 @@ RM			= rm -rf
 # Files
 # ============================================================
 
-EXECUTABLE	= Fourth
-HEADER		= ClapTrap.hpp ScavTrap.hpp FragTrap.hpp DiamondTrap.hpp
-SRC			= ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp main.cpp 
+EXECUTABLE	= Maggots
+HEADER		= Bureaucrat.hpp Form.hpp
+SRC			= Bureaucrat.cpp Form.cpp main.cpp
 OBJ			= $(SRC:.cpp=.o)
 
 
