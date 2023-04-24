@@ -1,7 +1,6 @@
 #ifndef AFORM_HPP_
 #define AFORM_HPP_
 
-
 #include <exception>
 #include <iostream>
 #include <string>
@@ -31,6 +30,11 @@ public:
     const char *what() const throw();
   };
 
+  class FormNotSignedException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+
   AForm &operator=(const AForm &copy);
 
   const std::string &getName() const;
@@ -39,6 +43,8 @@ public:
   int getGradeToExecute() const;
 
   void beSigned(const Bureaucrat &bureaucrat);
+
+  void checkAuthority(const Bureaucrat &executor) const;
   virtual void execute(Bureaucrat const &executor) const = 0;
 };
 

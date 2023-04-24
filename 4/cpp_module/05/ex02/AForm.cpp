@@ -8,6 +8,10 @@ const char *AForm::GradeTooLowException::what() const throw() {
   return "Grade is too low";
 }
 
+const char *AForm::FormNotSignedException::what() const throw() {
+  return "Form is not signed";
+}
+
 AForm::AForm()
     : name("default"), is_signed(false), grade_to_sign(1), grade_to_execute(1) {
 }
@@ -50,6 +54,13 @@ void AForm::beSigned(const Bureaucrat &bureaucrat) {
   if (bureaucrat.getGrade() > grade_to_sign)
     throw AForm::GradeTooLowException();
   is_signed = true;
+}
+
+void AForm::checkAuthority(const Bureaucrat &executor) const {
+  if (!is_signed)
+    throw AForm::FormNotSignedException();
+  if (executor.getGrade() > grade_to_execute)
+    throw AForm::GradeTooLowException();
 }
 
 std::ostream &operator<<(std::ostream &out, const AForm &form) {
