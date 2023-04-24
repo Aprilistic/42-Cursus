@@ -1,7 +1,7 @@
 #include "Fixed.hpp"
+#include <cmath>
 #include <iostream>
 #include <ostream>
-#include <cmath>
 
 Fixed::Fixed() : fixed_point_value(0) {
   std::cout << "Default constructor called" << std::endl;
@@ -9,7 +9,7 @@ Fixed::Fixed() : fixed_point_value(0) {
 
 Fixed::Fixed(const Fixed &fixed) {
   std::cout << "Copy constructor called" << std::endl;
-  *this = fixed;
+  this->fixed_point_value = fixed.getRawBits();
 }
 
 Fixed::Fixed(const int integer) {
@@ -28,16 +28,9 @@ Fixed &Fixed::operator=(const Fixed &fixed) {
   return *this;
 }
 
-std::ostream &operator<<(std::ostream &out, const Fixed &fixed) {
-  out << fixed.toFloat();
-  return out;
-}
-
 Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
-int Fixed::getRawBits(void) const {
-  return this->fixed_point_value;
-}
+int Fixed::getRawBits(void) const { return this->fixed_point_value; }
 
 void Fixed::setRawBits(int const raw) { this->fixed_point_value = raw; }
 
@@ -47,4 +40,9 @@ float Fixed::toFloat(void) const {
 
 int Fixed::toInt(void) const {
   return this->fixed_point_value >> fractional_bits;
+}
+
+std::ostream &operator<<(std::ostream &out, const Fixed &fixed) {
+  out << fixed.toFloat();
+  return out;
 }

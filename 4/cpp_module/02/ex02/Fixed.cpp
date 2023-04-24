@@ -5,7 +5,9 @@
 
 Fixed::Fixed() : fixed_point_value(0) {}
 
-Fixed::Fixed(const Fixed &fixed) { *this = fixed; }
+Fixed::Fixed(const Fixed &fixed) {
+  this->fixed_point_value = fixed.getRawBits();
+}
 
 Fixed::Fixed(const int integer) {
   this->fixed_point_value = integer << fractional_bits;

@@ -4,7 +4,7 @@ Point::Point() : _x(0), _y(0) {}
 
 Point::Point(const float x, const float y) : _x(x), _y(y) {}
 
-Point::Point(const Point &point) : _x(point._x), _y(point._y) {}
+Point::Point(const Point &point) : _x(point.getX()), _y(point.getY()) {}
 
 Point &Point::operator=(const Point &point){
 	if (this != &point){
