@@ -6,7 +6,7 @@ Animal::Animal() : type("Undefined") {
 
 Animal::Animal(const Animal &copy) {
 	std::cout << "Animal copy constructor called" << std::endl;
-	*this = copy;
+	this->type = copy.getType();
 }
 
 Animal::~Animal() {

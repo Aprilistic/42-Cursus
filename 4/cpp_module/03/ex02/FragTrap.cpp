@@ -40,6 +40,6 @@ FragTrap &FragTrap::operator=(const FragTrap &copy) {
 }
 
 void FragTrap::highFivesGuys() {
-  std::cout << "FragTrap " << this->getName() << " high fives very positively"
+  std::cout << "FragTrap " << this->getName() << " highfives very positively"
             << std::endl;
 }
