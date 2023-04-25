@@ -1,13 +1,14 @@
 #include "Cat.hpp"
+#include "Animal.hpp"
 
 Cat::Cat() : Animal() {
 	std::cout << "Cat default constructor called" << std::endl;
 	type = "Cat";
 }
 
-Cat::Cat(const Cat &copy) {
+Cat::Cat(const Cat &copy) : Animal(){
 	std::cout << "Cat copy constructor called" << std::endl;
-	*this = copy;
+	type = copy.getType();
 }
 
 Cat::~Cat() {

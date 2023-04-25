@@ -14,6 +14,7 @@ int main() {
   for (int i = 0; i < 4; i++)
     delete animals[i];
 
+
   Cat *cat1 = new Cat();
   cat1->getBrain()->setIdea(0, "Nyaa");
   std::cout << "cat1 is thinking " << cat1->getBrain()->getIdea(0) << std::endl;

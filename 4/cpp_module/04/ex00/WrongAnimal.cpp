@@ -6,7 +6,7 @@ WrongAnimal::WrongAnimal() : type("Undefined") {
 
 WrongAnimal::WrongAnimal(const WrongAnimal &copy) {
   std::cout << "WrongAnimal copy constructor called" << std::endl;
-  *this = copy;
+	type = copy.getType();
 }
 
 WrongAnimal::~WrongAnimal() { std::cout << "WrongAnimal destructor called" << std::endl; }
