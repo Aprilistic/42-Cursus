@@ -2,7 +2,7 @@
 
 Intern::Intern() {}
 
-Intern::Intern(Intern const &copy) { *this = copy; }
+Intern::Intern(Intern const &copy) { (void)copy; }
 
 Intern::~Intern() {}
 

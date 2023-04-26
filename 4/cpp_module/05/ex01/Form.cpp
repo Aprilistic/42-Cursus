@@ -22,9 +22,9 @@ Form::Form(const std::string &name, int grade_to_sign, int grade_to_execute)
 }
 
 Form::Form(const Form &copy)
-    : name(copy.name), is_signed(copy.is_signed),
-      grade_to_sign(copy.grade_to_sign),
-      grade_to_execute(copy.grade_to_execute) {}
+    : name(copy.getName()), is_signed(copy.getIsSigned()),
+      grade_to_sign(copy.getGradeToSign()),
+      grade_to_execute(copy.getGradeToExecute()) {}
 
 Form::~Form() {}
 
