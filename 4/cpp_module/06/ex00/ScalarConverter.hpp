@@ -3,47 +3,47 @@
 
 #include <iostream>
 #include <string>
-#include <exception>
 #include <limits>
+#include <iomanip>
+#include <cmath>
+
+#define CHAR 0
+#define INT 1
+#define FLOAT 2
+#define DOUBLE 3
+#define PSEUDO 4
+#define INVALID 5
+
 
 class ScalarConverter {
 private:
-  std::string literal;
-
   ScalarConverter();
-public:
-  ScalarConverter(std::string literal);
   ScalarConverter(ScalarConverter const &copy);
   ~ScalarConverter();
 
   ScalarConverter &operator=(ScalarConverter const &copy);
 
-  operator char() const;
-  operator int() const;
-  operator float() const;
-  operator double() const;
- 
-  class ImpossibleException : public std::exception {
-  public:
-    ImpossibleException();
-    ImpossibleException(ImpossibleException const &copy);
-    ~ImpossibleException() throw();
+  static char charValue;
+  static int intValue;
+  static float floatValue;
+  static double doubleValue;
 
-    ImpossibleException &operator=(ImpossibleException const &copy);
+  static bool isChar(std::string const &str);
+  static bool isPseudoLiteral(std::string const &str);
+  static bool isInt(double temp, std::string const &str);
+  static bool isFloat(double temp, std::string const &str);
+  static bool isDouble(double temp, std::string const &str);
 
-    virtual const char *what() const throw();
-  };
+  static int parseString(std::string const &str);
 
-  class NonDisplayableException : public std::exception {
-  public:
-    NonDisplayableException();
-    NonDisplayableException(NonDisplayableException const &copy);
-    ~NonDisplayableException() throw();
+  static void fromChar();
+  static void fromInt();
+  static void fromFloat();
+  static void fromDouble();
+  static void fromPseudo();
 
-    NonDisplayableException &operator=(NonDisplayableException const &copy);
+public:
+  static void convert(std::string const &str);
 
-    virtual const char *what() const throw();
-  };
 };
-
 #endif // SCALARCONVERTER_HPP_
