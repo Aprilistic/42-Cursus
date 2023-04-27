@@ -2,6 +2,7 @@
 #define ARRAY_HPP_
 
 #include <cstddef>
+#include <exception>
 #include <iostream>
 #include <stdexcept>
 
@@ -20,11 +21,6 @@ public:
   T &operator[](unsigned int i);
 
   std::size_t size() const;
-
-  class OutOfBoundsException : public std::exception {
-  public:
-    const char *what() const throw() { return "Index out of bounds"; };
-  };
 };
 
 template <typename T> Array<T>::Array() : array(NULL), length(0) {}
@@ -56,7 +52,7 @@ template <typename T> Array<T> &Array<T>::operator=(const Array &copy) {
 
 template <typename T> T &Array<T>::operator[](unsigned int i) {
   if (i >= length) {
-    throw OutOfBoundsException();
+    throw std::exception();
   }
   return array[i];
 }
