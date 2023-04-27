@@ -6,6 +6,7 @@
 #include <limits>
 #include <iomanip>
 #include <cmath>
+#include <sstream>
 
 #define CHAR 0
 #define INT 1
@@ -29,6 +30,7 @@ private:
   static double doubleValue;
 
   static bool isChar(std::string const &str);
+  static bool isValue(std::string const &str);
   static bool isPseudoLiteral(std::string const &str);
   static bool isInt(double temp, std::string const &str);
   static bool isFloat(double temp, std::string const &str);

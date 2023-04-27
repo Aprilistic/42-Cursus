@@ -1,5 +1,6 @@
 #include "ScalarConverter.hpp"
 #include <cstdlib>
+#include <sstream>
 
 double ScalarConverter::doubleValue = 0;
 float ScalarConverter::floatValue = 0;
@@ -47,6 +48,19 @@ bool ScalarConverter::isChar(const std::string &str) {
   return false;
 }
 
+bool ScalarConverter::isValue(const std::string &str) {
+  std::string lol = str;
+  if (lol[lol.length() - 1] == 'f')
+    lol = lol.substr(0, lol.length() - 1);
+  std::stringstream ss(lol);
+
+  double temp;
+  ss >> temp;
+  if (ss.fail() || !ss.eof())
+    return false;
+  return true;
+}
+
 bool ScalarConverter::isPseudoLiteral(const std::string &str) {
   if (str == "nan" || str == "nanf") {
     floatValue = std::numeric_limits<float>::quiet_NaN();
@@ -86,9 +100,8 @@ bool ScalarConverter::isFloat(double temp, const std::string &str) {
     return false;
   if (str[str.length() - 1] != 'f')
     return false;
-  if (str[str.length() - 1] == 'f' && !isdigit(str[str.length() - 2]))
-    return false;
-  if (fabs(temp) > std::numeric_limits<float>::max())
+  if (temp > std::numeric_limits<float>::max() ||
+      temp < -std::numeric_limits<float>::max())
     return false;
   floatValue = static_cast<float>(temp);
   return true;
@@ -106,6 +119,8 @@ int ScalarConverter::parseString(std::string const &str) {
     return INVALID;
   if (isChar(str))
     return CHAR;
+  if (!isValue(str))
+    return INVALID;
   if (isPseudoLiteral(str))
     return PSEUDO;
 
@@ -181,7 +196,7 @@ void ScalarConverter::fromDouble() {
   } else {
     std::cout << "int: " << static_cast<int>(doubleValue) << std::endl;
   }
-  if (doubleValue < std::numeric_limits<float>::min()) {
+  if (doubleValue < -std::numeric_limits<float>::max()) {
     std::cout << "float: -inff" << std::endl;
   } else if (doubleValue > std::numeric_limits<float>::max()) {
     std::cout << "float: inff" << std::endl;

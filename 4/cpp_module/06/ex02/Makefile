@@ -11,7 +11,7 @@ RM			= rm -rf
 
 EXECUTABLE	= Identify
 HEADER		= Base.hpp A.hpp B.hpp C.hpp
-SRC			= Base.cpp A.cpp B.cpp C.cpp main.cpp
+SRC			= main.cpp
 OBJ			= $(SRC:.cpp=.o)
 
 
