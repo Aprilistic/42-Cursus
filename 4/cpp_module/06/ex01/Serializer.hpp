@@ -6,17 +6,15 @@
 #include <sys/_types/_uintptr_t.h>
 
 struct Data {
-  std::string s1;
+  std::string str;
 };
 
 class Serializer {
 private:
-  std::string _randomString(int len);
-
   Serializer();
+  Serializer(Serializer const &copy);
   ~Serializer();
-  Serializer(Serializer const &src);
-  Serializer &operator=(Serializer const &rhs);
+  Serializer &operator=(Serializer const &copy);
 
 public:
   static uintptr_t serialize(Data *ptr);
