@@ -23,11 +23,7 @@ public:
 
   class OutOfBoundsException : public std::exception {
   public:
-    OutOfBoundsException() noexcept;
-    OutOfBoundsException(const OutOfBoundsException &copy) noexcept;
-    OutOfBoundsException &operator=(const OutOfBoundsException &copy) noexcept;
-    ~OutOfBoundsException() throw();
-    virtual const char *what() const throw() { return "Index out of bounds"; };
+    const char *what() const throw() { return "Index out of bounds"; };
   };
 };
 
