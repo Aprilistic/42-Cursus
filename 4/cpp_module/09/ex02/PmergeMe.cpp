@@ -1,9 +1,4 @@
 #include "PmergeMe.hpp"
-#include <iomanip>
-#include <ios>
-#include <iostream>
-#include <sys/_types/_clock_t.h>
-#include <vector>
 
 std::vector<int> PmergeMe::v_origin;
 std::vector<int> PmergeMe::v_sorted;
