@@ -3,6 +3,8 @@
 #include <sstream>
 #include <string>
 
+std::map<std::string, double> BitcoinExchange::_db;
+
 BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::BitcoinExchange(BitcoinExchange const &copy) { (void)copy; }
@@ -15,51 +17,50 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &copy) {
 }
 
 bool BitcoinExchange::isValidDate(std::string const &date) {
-  if (date.size() != 10) {
+  struct tm tm;
+  if (strptime(date.c_str(), "%Y-%m-%d", &tm) == NULL) {
     return false;
   }
-  if (date[4] != '-' || date[7] != '-') {
+  return true;
+}
+
+bool BitcoinExchange::isValidAmount(std::string const &amount) {
+  std::stringstream ss(amount);
+  double d;
+  ss >> d;
+  if (ss.fail() || !ss.eof()) {
     return false;
   }
-  std::string year = date.substr(0, 4);
-  std::string month = date.substr(5, 2);
-  std::string day = date.substr(8, 2);
-
-  if (year.size() != 4 || month.size() != 2 || day.size() != 2) {
-    return false;
-  }
-
-  for (std::size_t i = 0; i < year.size(); ++i) {
-    if (year[i] < '0' || year[i] > '9') {
-      return false;
-    }
-  }
-
-  for (std::size_t i = 0; i < month.size(); ++i) {
-    if (month[i] < '0' || month[i] > '9') {
-      return false;
-    }
-  }
-
-  for (std::size_t i = 0; i < day.size(); ++i) {
-    if (day[i] < '0' || day[i] > '9') {
-      return false;
-    }
-  }
-
   return true;
 }
 
 std::string BitcoinExchange::getResult(std::string line) {
   std::stringstream ss(line);
-  std::stringstream ret;
 
   std::string date_str, amount_str;
   double amount;
 
-  if (std::getline(ss, date_str, '|')) {
-    if (std::getline(ss, amount_str)) {
+  if (std::getline(ss, date_str, '|') && std::getline(ss, amount_str)) {
+    if (!isValidDate(date_str)) {
+      return "Error: bad input => " + date_str;
+    } else if (!isValidAmount(amount_str)) {
+      return "Error: bad input => " + amount_str;
     }
+
+    amount = std::strtod(amount_str.c_str(), nullptr);
+    if (amount < 0){
+      return "Error: not a positive number.";
+    } else if (amount > 1000){
+      return "Error: too large a number.";
+    }
+
+    double exchange_rate = _db[date_str];
+    double result = amount * exchange_rate;
+    std::stringstream result_ss;
+    result_ss << result;
+    return date_str + "| " + result_ss.str();
+  } else {
+    return "Error: bad input => " + line;
   }
 }
 

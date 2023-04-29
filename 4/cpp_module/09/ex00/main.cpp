@@ -10,12 +10,12 @@ int main(int argc, char **argv){
 		return 1;
 	}
 
-	if(!BitcoinExchange::init()){
+	if(!BitcoinExchange::setDB()){
 		std::cout << "Error: could not open database." << std::endl;
 		return 1;
 	}
 
-	if (!BitcoinExchange::run(argv[1])){
+	if (!BitcoinExchange::runBTC(argv[1])){
 		std::cout << "Error: could not open input file." << std::endl;
 		return 1;
 	}
