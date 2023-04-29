@@ -7,7 +7,7 @@ template <typename T> class MutantStack : public std::stack<T> {
 public:
   MutantStack() : std::stack<T>() {}
   MutantStack(const MutantStack<T> &copy) : std::stack<T>(copy) {}
-  virtual ~MutantStack() {}
+  ~MutantStack() {}
 
   MutantStack<T> &operator=(const MutantStack<T> &copy) {
     if (this != &copy) {

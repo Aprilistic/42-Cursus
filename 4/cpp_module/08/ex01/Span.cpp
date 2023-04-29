@@ -40,7 +40,7 @@ int Span::shortestSpan() const {
   std::vector<int> tmp(vec);
   std::sort(tmp.begin(), tmp.end());
   int min = tmp[1] - tmp[0];
-  for (unsigned int i = 2; i < tmp.size(); i++) {
+  for (unsigned long i = 2; i < tmp.size(); i++) {
     if (tmp[i] - tmp[i - 1] < min)
       min = tmp[i] - tmp[i - 1];
   }
