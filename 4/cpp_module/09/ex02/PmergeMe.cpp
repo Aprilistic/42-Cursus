@@ -159,7 +159,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
   start = clock();
   mergeSort(v, 0, v.size() - 1);
   end = clock();
-  elapsed_time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+  elapsed_time = static_cast<double>(end - start);
   std::cout << "Time to process a range of " << std::setw(5) << std::right
             << v_origin.size() << " elements : " << std::setw(10) << std::right
             << " elements with std::list : " << std::fixed
@@ -168,7 +168,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
   start = clock();
   mergeSort(l);
   end = clock();
-  elapsed_time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+  elapsed_time = static_cast<double>(end - start);
   std::cout << "Time to process a range of " << std::setw(5) << std::right
             << v_origin.size() << " elements : " << std::setw(10) << std::right
             << " elements with std::list : " << std::fixed
