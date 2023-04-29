@@ -47,6 +47,8 @@ std::string BitcoinExchange::getResult(std::string line) {
       return "Error: bad input => " + amount_str;
     }
 
+    date_str = date_str.substr(0, date_str.size() - 1);
+
     amount = std::strtod(amount_str.c_str(), nullptr);
     if (amount < 0){
       return "Error: not a positive number.";
@@ -54,11 +56,17 @@ std::string BitcoinExchange::getResult(std::string line) {
       return "Error: too large a number.";
     }
 
-    double exchange_rate = _db[date_str];
+    std::map<std::string, double>::iterator it = _db.lower_bound(date_str);
+    if (it == _db.begin()){
+      return "Error: no data available for this date.";
+    }
+    --it;
+    
+    double exchange_rate = it->second;
     double result = amount * exchange_rate;
     std::stringstream result_ss;
-    result_ss << result;
-    return date_str + "| " + result_ss.str();
+    result_ss << date_str << " => " << amount << " = " << result;
+    return result_ss.str();
   } else {
     return "Error: bad input => " + line;
   }
@@ -82,7 +90,6 @@ bool BitcoinExchange::setDB() {
     std::getline(ss, exchange_rate_str, ',');
 
     double exchange_rate = std::strtod(exchange_rate_str.c_str(), nullptr);
-
     _db[date] = exchange_rate;
   }
   db.close();
