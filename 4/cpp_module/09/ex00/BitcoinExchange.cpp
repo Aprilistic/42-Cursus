@@ -1,7 +1,4 @@
 #include "BitcoinExchange.hpp"
-#include <cstddef>
-#include <sstream>
-#include <string>
 
 std::map<std::string, double> BitcoinExchange::_db;
 

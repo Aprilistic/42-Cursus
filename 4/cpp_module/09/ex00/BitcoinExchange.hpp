@@ -1,13 +1,13 @@
 #ifndef BITCOINEXCHANGE_HPP_
 #define BITCOINEXCHANGE_HPP_
 
-#include <exception>
+#include <cstddef>
+#include <ctime>
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
-#include <ctime>
 
 class BitcoinExchange {
 private:
@@ -22,6 +22,7 @@ private:
   static bool isValidDate(std::string const &date);
   static bool isValidAmount(std::string const &amount);
   static std::string getResult(std::string line);
+
 public:
   static bool setDB();
   static bool runBTC(std::string const &input);
