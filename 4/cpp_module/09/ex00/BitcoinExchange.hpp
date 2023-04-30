@@ -1,8 +1,8 @@
 #ifndef BITCOINEXCHANGE_HPP_
 #define BITCOINEXCHANGE_HPP_
 
-#include <cstddef>
 #include <ctime>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <map>
