@@ -44,21 +44,22 @@ std::string BitcoinExchange::getResult(std::string line) {
       return "Error: bad input => " + amount_str;
     }
 
-    date_str = date_str.substr(0, date_str.size() - 1);
+    if (date_str[date_str.size() - 1] == ' ')
+      date_str = date_str.substr(0, date_str.size() - 1);
 
     amount = std::strtod(amount_str.c_str(), nullptr);
-    if (amount < 0){
+    if (amount < 0) {
       return "Error: not a positive number.";
-    } else if (amount > 1000){
+    } else if (amount > 1000) {
       return "Error: too large a number.";
     }
 
     std::map<std::string, double>::iterator it = _db.lower_bound(date_str);
-    if (it == _db.begin()){
+    if (it == _db.begin()) {
       return "Error: no data available for this date.";
     }
     --it;
-    
+
     double exchange_rate = it->second;
     double result = amount * exchange_rate;
     std::stringstream result_ss;
