@@ -25,7 +25,6 @@ private:
   static std::vector<int> v;
   static std::list<int> l;
 
-
   static bool parseInput(int argc, char **argv);
   static void displaySequence();
 

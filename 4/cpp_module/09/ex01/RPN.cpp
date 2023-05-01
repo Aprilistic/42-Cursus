@@ -27,7 +27,7 @@ int RPN::evaluateRPN(const std::string &str) {
 
     if (std::isspace(token)) {
       continue;
-    } else if (isdigit(token)) {
+    } else if (std::isdigit(token)) {
       s.push(token - '0');
     } else if (token == '+' || token == '-' || token == '*' || token == '/') {
       if (s.size() < 2) {

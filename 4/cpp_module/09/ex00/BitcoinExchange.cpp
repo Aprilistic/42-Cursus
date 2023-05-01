@@ -44,7 +44,7 @@ std::string BitcoinExchange::getResult(std::string line) {
       return "Error: bad input => " + amount_str;
     }
 
-    if (date_str[date_str.size() - 1] == ' ')
+    if (isspace(date_str[date_str.size() - 1]))
       date_str = date_str.substr(0, date_str.size() - 1);
 
     amount = std::strtod(amount_str.c_str(), nullptr);
