@@ -37,8 +37,6 @@ bool PmergeMe::parseInput(int argc, char **argv) {
   }
   v_sorted = v_origin;
   sort(v_sorted.begin(), v_sorted.end());
-  v = v_origin;
-  l = std::list<int>(v_origin.begin(), v_origin.end());
   return true;
 }
 
@@ -179,6 +177,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
   double elapsed_time;
 
   start = clock();
+  v = v_origin;
   mergeSort(v);
   end = clock();
   elapsed_time = static_cast<double>(end - start);
@@ -188,6 +187,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
             << std::setprecision(5) << elapsed_time << " us" << std::endl;
 
   start = clock();
+  l = std::list<int>(v_origin.begin(), v_origin.end());
   mergeSort(l);
   end = clock();
   elapsed_time = static_cast<double>(end - start);
