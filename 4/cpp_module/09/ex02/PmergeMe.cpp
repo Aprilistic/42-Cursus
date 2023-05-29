@@ -183,8 +183,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
   elapsed_time = static_cast<double>(end - start);
   std::cout << "Time to process a range of " << std::setw(5) << std::right
             << v_origin.size() << " elements : " << std::setw(20) << std::right
-            << " elements with std::vector : " << std::fixed
-            << std::setprecision(5) << elapsed_time << " us" << std::endl;
+            << " elements with std::vector : " << elapsed_time << " us" << std::endl;
 
   start = clock();
   l = std::list<int>(v_origin.begin(), v_origin.end());
@@ -193,8 +192,7 @@ void PmergeMe::displayElapsedTimeOfMergeSort() {
   elapsed_time = static_cast<double>(end - start);
   std::cout << "Time to process a range of " << std::setw(5) << std::right
             << v_origin.size() << " elements : " << std::setw(20) << std::right
-            << " elements with std::list : " << std::fixed
-            << std::setprecision(5) << elapsed_time << " us" << std::endl;
+            << " elements with std::list : " << elapsed_time << " us" << std::endl;
 }
 
 void PmergeMe::pmerge(int argc, char **argv) {
