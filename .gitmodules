@@ -4,3 +4,6 @@
 [submodule "4/miniRT"]
 	path = 4/miniRT
 	url = https://github.com/Aprilistic/miniRT
+[submodule "5/Inception"]
+	path = 5/Inception
+	url = git@github.com:Aprilistic/Inception.git
