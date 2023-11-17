@@ -7,3 +7,6 @@
 [submodule "5/Inception"]
 	path = 5/Inception
 	url = git@github.com:Aprilistic/Inception.git
+[submodule "5/webserv"]
+	path = 5/webserv
+	url = https://github.com/Aprilistic/webserv
